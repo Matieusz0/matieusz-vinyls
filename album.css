@@ -1,0 +1,131 @@
+/* Resetowanie styli */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tło i czcionki */
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Tło z gwiazdami */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.3;
+    z-index: -1;
+}
+
+/* Tytuł na górze strony */
+h1 {
+    font-size: 36px;
+    text-shadow: 0 0 15px #a100ff;
+    margin-bottom: 30px;
+}
+
+/* Kontener na całą zawartość */
+.album-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Główna zawartość (okładka + informacje) */
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+/* Okładka płyty */
+.cover {
+    position: relative;
+}
+
+.cover img {
+    width: 550px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    margin-right: 40px;
+    transition: opacity 1.0s ease;
+}
+
+.album-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 1.0s ease;
+}
+
+.cover:hover .album-img-hover {
+    opacity: 1;
+}
+
+.cover:hover .album-img {
+    opacity: 0;
+    transition: opacity 1.0s ease;
+}
+
+/* Informacje o albumie */
+.album-details {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 50%;
+    text-align: left;
+}
+
+/* Stylizacja tekstu */
+.label {
+    font-weight: bold;
+    color: #a100ff;
+}
+
+/* Neonowy efekt */
+.album-details p,
+.album-details li {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px #a100ff;
+}
+
+/* Lista piosenek */
+.album-details ul {
+    list-style-type: none;
+}
+
+/* Przycisk powrotu */
+button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.
+}
