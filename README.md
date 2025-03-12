@@ -1,4 +1,4 @@
-# 🎵 matieusz vinyls - Twoja kolekcja winyli online! 🎶  
+# 🎵 matieusz vinyls - Twoja kolekcja winyli online! VERISON 1.0🎶  
 
 **matieusz vinyls** to aplikacja internetowa do zarządzania kolekcją winylowych płyt!  
 Dzięki niej możesz **przechowywać, filtrować, wyszukiwać i dodawać albumy**, a także śledzić **wartość swojej kolekcji**.  
