@@ -50,8 +50,21 @@ To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! �
 2. Uruchom **phpMyAdmin** i zaimportuj plik `database.sql`  
 3. W pliku `db.php` wpisz swoje dane dostępowe do MySQL  
 4. **Chcesz dodać administratora?** Wystarczy zmienic plik `add_admin.php`, podać w nim nazwę administratora oraz hasło jakie chcemy stworzyć, zapisać i odpalić plik `add_admin.php` w przeglądarce! 👑
-![image](https://github.com/user-attachments/assets/b78b00bb-69e4-4188-b681-5ecab99db17f)
+```
+<?php
+require 'php/db.php';
 
+$username = "admin"; // Nazwa użytkownika (zmień na własną)
+$password = "admin"; // Hasło admina (zmień na własne)
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hashowanie hasła
+
+// Dodanie użytkownika do bazy
+$stmt = $pdo->prepare("INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)");
+$stmt->execute([$username, $hashedPassword, 1]);
+
+echo "Administrator został dodany!";
+?>
+```
 5. Odpal XAMPP i wejdź na `http://localhost/vinyls_app` 🚀  
 
 ---
