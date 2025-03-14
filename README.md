@@ -2,7 +2,9 @@
 
 **matieusz vinyls** to aplikacja internetowa do zarządzania kolekcją winylowych płyt!  
 Dzięki niej możesz **przechowywać, filtrować, wyszukiwać i dodawać albumy**, a także śledzić **wartość swojej kolekcji**.  
-To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! 💿✨  
+To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! 💿✨
+
+![image](https://github.com/user-attachments/assets/cc2d66f7-aa1b-4f7d-86f2-ac85ced231a5)
 
 ---
 
@@ -15,7 +17,9 @@ To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! �
 ### 🎶 **Dodawanie albumów**  
 - Możesz dodawać albumy z takimi informacjami jak **tytuł, wykonawca, rok wydania, cena, ilość płyt, lista piosenek**  
 - **Wybierasz gatunek** z listy lub **dodajesz nowy** – nie musisz ręcznie wpisywać tego samego!  
-- **Podgląd zdjęcia albumu przed dodaniem** – widzisz, co wrzucasz, zanim klikniesz "Dodaj"!  
+- **Podgląd zdjęcia albumu przed dodaniem** – widzisz, co wrzucasz, zanim klikniesz "Dodaj"!
+  
+![image](https://github.com/user-attachments/assets/e0af08bc-8ab8-465a-a2d6-b26cc70a9f22)  
 
 ### 🔍 **Filtracja i wyszukiwanie albumów**  
 - **Nowe opcje sortowania i filtrowania** – szybciej znajdziesz to, czego szukasz!  
