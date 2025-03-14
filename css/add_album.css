@@ -1,0 +1,224 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 🔹 TŁO I CZCIONKI */
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    text-align: center;
+}
+
+/* 🔹 TŁO Z GWIAZDKAMI */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.3;
+    z-index: -1;
+}
+
+/* 🔹 TYTUŁ */
+h1 {
+    font-size: 24px;
+    text-shadow: 0 0 15px #a100ff;
+    margin-bottom: 20px;
+}
+
+/* 🔹 FORMULARZ */
+form {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 25%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/* 🔹 NAGŁOWEK FORMULARZA */
+label {
+    display: block;
+    margin: 5px 0 3px; /* Mniejsze marginesy */
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 0 15px #a100ff;
+    font-size: 16px; /* Zmniejszony font */
+}
+
+/* 🔹 POLA FORMULARZA */
+input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* Mniejsze marginesy */
+    border-radius: 5px;
+    border: 2px solid #a100ff;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px; /* Zmniejszony font */
+    text-align: center;
+}
+
+/* 🔹 Zmiana kursora na tekstowy */
+textarea {
+    resize: vertical;
+    min-height: 80px; /* Zmniejszona wysokość */
+}
+
+/* 🔹 PRZYCISKI */
+.przyciski {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* 🔹 PRZYCISK POWROTU */
+.back-btn {
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* 🔹 PRZYCISK WYSYŁANIA FORMULARZA */
+form label, form input, form button {
+    margin: 5px 0;
+}
+
+/* 🔹 PRZYCISK WYSYŁANIA FORMULARZA */
+select {
+    background-color: rgba(20, 20, 20, 0.8);
+    border: 2px solid #a100ff;
+    color: white;
+    font-size: 14px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+select option {
+    background-color: rgba(20, 20, 20, 0.9);
+    color: white;
+    font-size: 14px;
+    padding: 10px;
+    border: none;
+    text-align: center;
+}
+
+select option:hover {
+    background-color: #a100ff;
+    color: black;
+}
+
+input[type="file"] {
+    display: none; 
+}
+
+label[for="zdjecie"], label[for="zdjecie2"] {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+label[for="zdjecie"]:hover, label[for="zdjecie2"]:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* 🔹 zdjecie preview */
+label[for="zdjecie"] {
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+    font-size: 14px;
+    margin-right: 15px;
+}
+
+label[for="zdjecie"]:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+.zdjecie-upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px; 
+    width: 100%; /* Make the container full width */
+}
+
+.zdjecie-preview {
+    margin-left: 15px;
+    width: 100px; 
+    height: 100px;
+    border: 2px solid #a100ff;
+    border-radius: 5px;
+    overflow: hidden;
+    display: none; 
+    justify-content: center;
+    align-items: center;
+}
+
+.zdjecie-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+

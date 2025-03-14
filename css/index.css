@@ -1,0 +1,753 @@
+/* Resetowanie stylów */
+   * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    /* Tło i czcionki */
+    body {
+        background-color: black;
+        color: white;
+        font-family: 'Arial', sans-serif;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    /* Tło z gwiazdami */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://www.transparenttextures.com/patterns/stardust.png');
+        opacity: 0.3;
+        z-index: -1;
+    }
+    
+    /* przyciski w prawym gornym */
+    .top-right-buttons {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+    }
+    
+    /* Przycisk logowania */
+    .login-btn {
+        padding: 10px 20px;
+        background: #a100ff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 0 10px #a100ff;
+        transition: 0.3s;
+    }
+    
+    .login-btn:hover {
+        background: #7300b3;
+        box-shadow: 0 0 15px #a100ff;
+    }
+    
+    /* Przycisk dodawania albumu */
+    .add-btn {
+        padding: 10px 20px;
+        background: #1aff00;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 0 10px #1aff00;
+        transition: 0.3s;
+    }
+    
+    .add-btn:hover {
+        background: #14cc00;
+        box-shadow: 0 0 15px #1aff00;
+    }
+
+    .settings-btn {
+        padding: 10px 20px;
+        background: #d1d1d1;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 0 10px #ffffff;
+        transition: 0.3s;
+    }
+    
+    .settings-btn:hover {
+        background: #d1d1d1;
+        box-shadow: 0 0 15px #ffffff;
+    }
+
+    /* Przycisk usuwania albumu */
+    .delete-btn {
+        padding: 10px 20px;
+        background: #ff0000;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 0 10px #ff0000;
+        transition: 0.3s;
+    }
+
+    .delete-btn:hover {
+        background: #cc0000;
+        box-shadow: 0 0 15px #ff0000;
+    }
+    
+    /* Tytuł strony */
+    h1 {
+        font-size: 42px;
+        text-shadow: 0 0 20px #a100ff;
+        margin-bottom: 30px;
+    }
+    
+    /* Kontener dla przycisków zmiany widoku */
+.view-toggle {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+}
+
+/* Stylowanie każdego przycisku */
+.view-toggle button {
+    padding: 10px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+    width: 50px;
+    height: 50px;
+}
+
+.view-toggle button:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+    text-shadow: 0 0 15px #a100ff;
+}
+
+.view-toggle button.active {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* Wyszukiwarka */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 300px;
+    background: black;
+    color: white;
+    border: 1px solid #a100ff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+}
+
+.search-bar input::placeholder {
+    color: #ffffff;
+}
+
+.search-bar input:focus {
+    outline: none;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+    
+ /* duże kwadraty */
+.large .album {
+    width: 300px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.large .album img {
+    width: 250px;
+    height: 250px;
+    transition: all 0.3s ease;
+}
+
+.large .album h2 {
+    font-size: 22px;
+    transition: 0.3s;
+}
+
+.large .album h3 {
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.large .album p {
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+/* małe kwadraty */
+.medium .album {
+    width: 150px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.medium .album img {
+    width: 100px;
+    height: 100px;
+    transition: all 0.3s ease;
+}
+
+.medium .album h2 {
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.medium .album h3 {
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.medium .album p {
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+/* lista */
+.list .album {
+    width: 150px; 
+    padding: 10px;
+    transition: 0.3s;
+    display: inline-block; 
+    margin-right: 15px; 
+    text-align: center;
+}
+
+.list .album img {
+    width: 130px; 
+    height: 130px; 
+    object-fit: cover; 
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.list .album h2, 
+.list .album h3, 
+.list .album p {
+    display: none;
+    transition: 0.3s;
+}
+
+/* Kontener na albumy */
+.albums-container {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 100%; /* Ensure the container takes the full width */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Kontener albumów */
+.albums {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    transition: 0.3s;
+    justify-content: center;  
+    width: 100%;
+}
+
+.album.hidden {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+    width: 0; 
+    height: 0; 
+    margin: 0; 
+}
+
+.album {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 15px;
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease, width 0.5s ease, height 0.5s ease, margin 0.5s ease;
+}
+
+.album:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.album img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
+    transition: opacity 1.0s ease;
+}
+
+.album h3 {
+    font-size: 18px;
+    margin-top: 10px;
+    text-shadow: 0 0 10px #a100ff;
+    color: white;
+}
+
+.album h2 {
+    font-size: 22px;
+    margin-top: 5px;
+    text-shadow: 0 0 15px #a100ff;
+    color: white;
+}
+
+.album p {
+    margin-top: 10px;
+    font-size: 16px;
+    text-shadow: 0 0 10px #a100ff;
+    color: white;
+}
+
+.albums {
+    transition: 0.5s;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* 🔹 PANEL FILTRÓW */
+.filters {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.filters h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.filters label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.filters select,
+.filters input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    background: black;
+    color: white;
+    border: 1px solid #a100ff;
+    border-radius: 5px;
+}
+
+.filters button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filters button:hover {
+    background: #7300b3;
+}
+
+/* laczna wartosc kolekcji */
+.total-value {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 300px;
+    text-align: center;
+}
+
+.total-value h2 {
+    color: white;
+    text-shadow: 0 0 10px #a100ff;
+    margin: 0;
+}
+
+.total-value p {
+    color: #a100ff;
+    text-shadow: 0 0 10px white;
+    font-size: 24px;
+    margin: 10px 0 0;
+}
+
+/* ostatnio dodany album */
+.recent-album {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    margin-top: 20px;
+    width: 300px;
+}
+
+.recent-album h2 {
+    color: #a100ff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recent-album .album {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.recent-album .album img {
+    width: 200px;
+    height: 200px;
+}
+
+/* łączną wartość kolekcji */
+.total-value {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    margin-bottom: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.total-value h2 {
+    color: white;
+    text-shadow: 0 0 10px #a100ff;
+    margin: 0;
+}
+
+.total-value p {
+    color: white;
+    text-shadow: 0 0 10px #a100ff;
+    font-size: 24px;
+    margin: 10px 0 0;
+}
+
+/* ostatnio dodany album */
+.recent-album {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 300px;
+}
+
+.recent-album h2 {
+    color: white;
+    text-shadow: 0 0 10px #a100ff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recent-album .album {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.recent-album .album img {
+    width: 200px;
+    height: 200px;
+}
+
+/* prawa kolumna */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.album-content {
+    position: relative;
+}
+
+.album-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 1.0s ease;
+}
+
+.album-img-hover {
+    opacity: 0;
+}
+
+.album-content:hover .album-img-hover {
+    opacity: 1;
+}
+
+.album-content:hover .album-img {
+    opacity: 0;
+}
+
+.album.selected {
+    background: rgba(255, 255, 255, 0.5);
+    transition: background 0.3s ease;
+}
+
+/* Disable hover effect when deleting albums */
+.albums-container.disable-hover .album-content:hover .album-img-hover {
+    opacity: 0;
+}
+
+.albums-container.disable-hover .album-content:hover .album-img {
+    opacity: 1;
+}
+
+/* Kontener główny */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    gap: 20px;
+}
+
+/* Kontener na filtry */
+.filters-container {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 250px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.filters-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.filters-container label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.filters-container select,
+.filters-container input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    background: black;
+    color: white;
+    border: 1px solid #a100ff;
+    border-radius: 5px;
+}
+
+.filters-container button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filters-container button:hover {
+    background: #7300b3;
+}
+
+/* Kontener na albumy */
+.albums-main-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.albums-container {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 100%; /* Ensure the container takes the full width */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Kontener albumów */
+.albums {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    transition: 0.3s;
+    justify-content: center; /* Center the albums */
+    width: 100%; /* Ensure the albums container takes the full width */
+}
+
+.album.hidden {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+    width: 0; 
+    height: 0; 
+    margin: 0; 
+}
+
+.album {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 15px;
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease, width 0.5s ease, height 0.5s ease, margin 0.5s ease;
+}
+
+.album:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.album img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
+    transition: opacity 1.0s ease;
+}
+
+.album h3 {
+    font-size: 18px;
+    margin-top: 10px;
+    text-shadow: 0 0 10px #a100ff;
+    color: white;
+}
+
+.album h2 {
+    font-size: 22px;
+    margin-top: 5px;
+    text-shadow: 0 0 15px #a100ff;
+    color: white;
+}
+
+.album p {
+    margin-top: 10px;
+    font-size: 16px;
+    text-shadow: 0 0 10px #a100ff;
+    color: white;
+}
+
+/* prawa kolumna */
+.right-column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.album-content {
+    position: relative;
+}
+
+.album-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 1.0s ease;
+}
+
+.album-img-hover {
+    opacity: 0;
+}
+
+.album-content:hover .album-img-hover {
+    opacity: 1;
+}
+
+.album-content:hover .album-img {
+    opacity: 0;
+}
+
+.album.selected {
+    background: rgba(255, 255, 255, 0.5);
+    transition: background 0.3s ease;
+}
+
+/* Disable hover effect when deleting albums */
+.albums-container.disable-hover .album-content:hover .album-img-hover {
+    opacity: 0;
+}
+
+.albums-container.disable-hover .album-content:hover .album-img {
+    opacity: 1;
+}
+
+/* Stylizacja dla selecta sortowania */
+.filters-container select,
+.filters-container input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    background: black;
+    color: white;
+    border: 1px solid #a100ff;
+    border-radius: 5px;
+}
+
+.filters-container button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filters-container button:hover {
+    background: #7300b3;
+}
