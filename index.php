@@ -1,6 +1,6 @@
 <?php
-require 'db.php';
-include 'admin_check.php';
+require 'php/db.php';
+include 'php/admin_check.php';
 
 // 🔹 POBIERANIE ALBUMOW
 $stmt = $pdo->query("SELECT albumy.*, gatunki.nazwa AS gatunek 
@@ -32,19 +32,21 @@ $totalValue = $totalValueStmt->fetch(PDO::FETCH_ASSOC)['total_value'];
 <head>
     <meta charset="UTF-8">
     <title>matieusz vinyls</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/index.js" defer></script>
 </head>
 <body>
-    <!-- 🔹 PRZYCISKI W PRAWYM GORNYM ROGU -->
-    <div class="top-right-buttons">
-        <?php if ($isAdmin): ?>
-            <button onclick="window.location.href='add_album.php'" class="add-btn">➕ Dodaj album</button>
-            <button onclick="window.location.href='logout.php'" class="login-btn">Wyloguj</button>
-        <?php else: ?>
-            <button onclick="window.location.href='login.php'" class="login-btn">Zaloguj</button>
-        <?php endif; ?>
-            <button onclick="window.location.href='settings.php'" class="settings-btn">Ustawienia</button>
-    </div>
+<!-- 🔹 PRZYCISKI W PRAWYM GORNYM ROGU -->
+<div class="top-right-buttons">
+    <?php if ($isAdmin): ?>
+        <button onclick="window.location.href='add_album.php'" class="add-btn">➕ Dodaj album</button>
+        <button id="delete-toggle-btn" class="delete-btn">Usuń album</button>
+        <button onclick="window.location.href='logout.php'" class="login-btn">Wyloguj</button>
+    <?php else: ?>
+        <button onclick="window.location.href='login.php'" class="login-btn">Zaloguj</button>
+    <?php endif; ?>
+    <button onclick="window.location.href='settings.php'" class="settings-btn">Ustawienia</button>
+</div>
 
     <!-- 🔹 TYTUŁ STRONY -->
     <h1>Moja Kolekcja Winylowa</h1>
@@ -61,78 +63,42 @@ $totalValue = $totalValueStmt->fetch(PDO::FETCH_ASSOC)['total_value'];
         <input type="text" id="search-input" placeholder="Szukaj albumów...">
     </div>
 
-    <div class="container">  
+    <div class="main-container">  
         <!-- 🔹 PANEL FILTRÓW PO LEWEJ STRONIE -->
-        <div class="filters">
-            <h2>Filtry</h2>
+<div class="filters-container">
+    <h2>Filtry</h2>
 
-            <label for="gatunek-filter">Gatunek:</label>
-            <select id="gatunek-filter">
-                <option value="all">Wszystkie</option>
-                <?php foreach ($gatunki as $gatunek): ?>
-                    <option value="<?= $gatunek['nazwa'] ?>"><?= $gatunek['nazwa'] ?></option>
-                <?php endforeach; ?>
-            </select>
+    <label for="gatunek-filter">Gatunek:</label>
+    <select id="gatunek-filter">
+        <option value="all">Wszystkie</option>
+        <?php foreach ($gatunki as $gatunek): ?>
+            <option value="<?= $gatunek['nazwa'] ?>"><?= $gatunek['nazwa'] ?></option>
+        <?php endforeach; ?>
+    </select>
 
-            <label for="cena-filter">Cena do:</label>
-            <input type="number" id="cena-filter" placeholder="Maks. cena">
+    <label for="cena-filter">Cena do:</label>
+    <input type="number" id="cena-filter" placeholder="Maks. cena">
 
-            <button id="reset-filters">Resetuj</button>
-            <script>
-    // 🔹 SKRYPT DO FILTROWANIA ALBUMOW
-    document.addEventListener('DOMContentLoaded', function () {
-    const gatunekFilter = document.getElementById("gatunek-filter");
-    const cenaFilter = document.getElementById("cena-filter");
-    const resetFilters = document.getElementById("reset-filters");
-    const searchInput = document.getElementById("search-input");
-    const albums = document.querySelectorAll(".albums .album");
+    <label for="sort-filter">Sortuj według:</label>
+    <select id="sort-filter">
+        <option value="cena_desc">Cena od najwyższej</option>
+        <option value="cena_asc">Cena od najniższej</option>
+        <option value="wykonawca_asc">Alfabetycznie wykonawca</option>
+        <option value="tytul_asc">Alfabetycznie tytuł</option>
+    </select>
 
-    function filterAlbums() {
-        const selectedGatunek = gatunekFilter.value;
-        const maxCena = parseFloat(cenaFilter.value) || Infinity;
-        const searchQuery = searchInput.value.toLowerCase();
-
-        albums.forEach(album => {
-            const albumGatunek = album.getAttribute("data-gatunek");
-            const albumCena = parseFloat(album.getAttribute("data-cena")) || 0;
-            const albumWykonawca = album.querySelector(".album-text h3").textContent.toLowerCase();
-            const albumTytul = album.querySelector(".album-text h2").textContent.toLowerCase();
-
-            const matchesGatunek = selectedGatunek === "all" || albumGatunek === selectedGatunek;
-            const matchesCena = albumCena <= maxCena;
-            const matchesSearch = albumWykonawca.includes(searchQuery) || albumTytul.includes(searchQuery);
-
-            if (matchesGatunek && matchesCena && matchesSearch) {
-                album.classList.remove("hidden");
-            } else {
-                album.classList.add("hidden");
-            }
-        });
-    }
-
-    gatunekFilter.addEventListener("change", filterAlbums);
-    cenaFilter.addEventListener("input", filterAlbums);
-    searchInput.addEventListener("input", filterAlbums);
-
-    // 🔹 RESETOWANIE FILTRÓW
-    resetFilters.addEventListener("click", function () {
-        gatunekFilter.value = "all";
-        cenaFilter.value = "";
-        searchInput.value = "";
-        filterAlbums();
-    });
-
-    filterAlbums();
-});
-</script>
-
-        </div>
+    <button id="reset-filters">Resetuj</button>
+</div>
+ <!-- 🔹 FORMULARZ DO USUWANIA ALBUMOW -->
+<form id="delete-albums-form" method="POST">
+    <input type="hidden" name="albums_to_delete" id="albums-to-delete">
+    <div class="albums-main-container">  
         <!-- 🔹 KONTENER NA ALBUMY -->
         <div class="albums-container">
             <!-- 🔹 LISTA ALBUMOW -->
             <div class="albums">
                 <?php foreach ($albums as $album): ?>
-                <div class="album" data-gatunek="<?= $album['gatunek'] ?>" data-cena="<?= $album['cena'] ?>">
+                <div class="album" data-gatunek="<?= $album['gatunek'] ?>" data-cena="<?= $album['cena'] ?>" data-id="<?= $album['id'] ?>">
                     <a href="album.php?id=<?= $album['id'] ?>">
                         <div class="album-content">
                             <img src="<?= $album['zdjecie'] ?>" alt="<?= $album['tytuł'] ?>" class="album-img">
@@ -150,9 +116,10 @@ $totalValue = $totalValueStmt->fetch(PDO::FETCH_ASSOC)['total_value'];
                 <?php endforeach; ?>
             </div>
         </div>
-
+    </div>
+</form>
         <!-- 🔹 DANA ILOSC PIENIEDZY I OSTATNI ALBUM -->
-        <div class="right-column">
+        <div class="right-column-container">
             <div class="total-value">
                 <h2>Łączna wartość kolekcji</h2>
                 <p><?= number_format($totalValue, 2) ?> PLN</p>
@@ -179,28 +146,5 @@ $totalValue = $totalValueStmt->fetch(PDO::FETCH_ASSOC)['total_value'];
             </div>
         </div>
     </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 🔹 ZMIANA WIDOKU
-        function setView(view) {
-            const albumsContainer = document.querySelector('.albums');
-            
-            albumsContainer.classList.remove('large', 'medium', 'list');
-            albumsContainer.classList.add(view);
-        }
-
-        // 🔹 PRZYCISKI DO ZMIANY WIDOKU
-        document.getElementById('largeView').addEventListener('click', function() {
-            setView('large');
-        });
-        document.getElementById('mediumView').addEventListener('click', function() {
-            setView('medium');
-        });
-        document.getElementById('listView').addEventListener('click', function() {
-            setView('list');
-        });
-    });
-    </script>
 </body>
 </html>

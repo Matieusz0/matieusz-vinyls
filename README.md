@@ -1,12 +1,14 @@
-# 🎵 matieusz vinyls - Twoja kolekcja winyli online! VERISON 1.0🎶  
+# 🎵 matieusz vinyls - Twoja kolekcja winyli online! VERISON 1.1 🎶  
 
 **matieusz vinyls** to aplikacja internetowa do zarządzania kolekcją winylowych płyt!  
 Dzięki niej możesz **przechowywać, filtrować, wyszukiwać i dodawać albumy**, a także śledzić **wartość swojej kolekcji**.  
-To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! 💿✨  
+To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! 💿✨
+
+![image](https://github.com/user-attachments/assets/cc2d66f7-aa1b-4f7d-86f2-ac85ced231a5)
 
 ---
 
-## 🚀 **Funkcje aplikacji**  
+## 📌 **Funkcje aplikacji**  
 
 ### 🔐 **Logowanie i dostęp do stron**  
 - Logowanie administratora – tylko Ty masz pełen dostęp do zarządzania kolekcją  
@@ -15,16 +17,23 @@ To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! �
 ### 🎶 **Dodawanie albumów**  
 - Możesz dodawać albumy z takimi informacjami jak **tytuł, wykonawca, rok wydania, cena, ilość płyt, lista piosenek**  
 - **Wybierasz gatunek** z listy lub **dodajesz nowy** – nie musisz ręcznie wpisywać tego samego!  
-- **Podgląd zdjęcia albumu przed dodaniem** – widzisz, co wrzucasz, zanim klikniesz "Dodaj"!  
+- **Podgląd zdjęcia albumu przed dodaniem** – widzisz, co wrzucasz, zanim klikniesz "Dodaj"!
+  
+![image](https://github.com/user-attachments/assets/e0af08bc-8ab8-465a-a2d6-b26cc70a9f22)  
 
 ### 🔍 **Filtracja i wyszukiwanie albumów**  
-- **Filtruj po gatunkach** – szybko zobaczysz tylko rock, metal, jazz czy cokolwiek chcesz! 🎸  
+- **Nowe opcje sortowania i filtrowania** – szybciej znajdziesz to, czego szukasz!  
+- **Filtruj po gatunkach** – zobacz tylko rock, metal, jazz czy cokolwiek chcesz! 🎸  
 - **Filtruj po cenie** – wyświetl tylko albumy do określonej kwoty 💰  
 - **Wyszukiwarka w czasie rzeczywistym** – znajdź album **bez odświeżania strony**  
 
 ### 🖼️ **Zdjęcia albumów**  
 - Każdy album ma **okładkę**, a po najechaniu myszką zmienia się na drugie zdjęcie  
 - Zdjęcia są **automatycznie dopasowane**, żeby wszystko wyglądało schludnie  
+
+### 🗑️ **Usuwanie albumów**  
+- Możesz **usunąć album jednym kliknięciem** – natychmiast zniknie z bazy!  
+- **Zdjęcia albumu też się kasują**, więc nie zostają niepotrzebne pliki  
 
 ### 📊 **Statystyki kolekcji**  
 - **Łączna wartość kolekcji** wyświetlana w osobnym kafelku – wiesz, ile warte są Twoje winyle 💵  
@@ -40,7 +49,23 @@ To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! �
 1. Pobierz kod i wrzuć go do folderu XAMPP (np. `C:/xampp/htdocs/vinyls_app`)  
 2. Uruchom **phpMyAdmin** i zaimportuj plik `database.sql`  
 3. W pliku `db.php` wpisz swoje dane dostępowe do MySQL  
-4. Odpal XAMPP i wejdź na `http://localhost/vinyls_app` 🚀  
+4. **Chcesz dodać administratora?** Wystarczy zmienic plik `add_admin.php`, podać w nim nazwę administratora oraz hasło jakie chcemy stworzyć, zapisać i odpalić plik `add_admin.php` w przeglądarce! 👑
+```
+<?php
+require 'php/db.php';
+
+$username = "admin"; // Nazwa użytkownika (zmień na własną)
+$password = "admin"; // Hasło admina (zmień na własne)
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hashowanie hasła
+
+// Dodanie użytkownika do bazy
+$stmt = $pdo->prepare("INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)");
+$stmt->execute([$username, $hashedPassword, 1]);
+
+echo "Administrator został dodany!";
+?>
+```
+5. Odpal XAMPP i wejdź na `http://localhost/vinyls_app` 🚀  
 
 ---
 

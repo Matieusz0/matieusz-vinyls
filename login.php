@@ -1,8 +1,8 @@
 <?php
 session_start();
-require 'db.php';
+require 'php/db.php';
 
-if (isset($_SESSION['admin'])) {
+if (isset($_SESSION['is_admin'])) {
     header("Location: index.php");
     exit();
 }
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$conn) {
         $error = "Błąd serwera. Spróbuj ponownie później.";
     } else {
-        $stmt = $conn->prepare("SELECT username, password FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT username, password, is_admin FROM users WHERE username = ?");
         if ($stmt === false) {
             $error = "Błąd serwera. Spróbuj ponownie później.";
         } else {
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($result->num_rows === 1) {
                 $user = $result->fetch_assoc();
                 if (password_verify($password, $user['password'])) {
-                    $_SESSION['admin'] = $user['username'];
+                    $_SESSION['is_admin'] = $user['is_admin'];
                     header("Location: index.php");
                     exit();
                 } else {
@@ -39,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->close();
     }
 }
-$_SESSION['admin'] = true;
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +47,7 @@ $_SESSION['admin'] = true;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <div class="login-container">

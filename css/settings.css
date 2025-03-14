@@ -36,8 +36,8 @@ body::before {
     gap: 10px;
 }
 
-/* Przycisk logowania */
-.login-btn {
+/* 🔹 PRZYCISK POWROTU */
+.back-btn {
     padding: 10px 20px;
     background: #a100ff;
     color: white;
@@ -48,26 +48,9 @@ body::before {
     transition: 0.3s;
 }
 
-.login-btn:hover {
+.back-btn:hover {
     background: #7300b3;
     box-shadow: 0 0 15px #a100ff;
-}
-
-/* Przycisk dodawania albumu */
-.add-btn {
-    padding: 10px 20px;
-    background: #1aff00;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #1aff00;
-    transition: 0.3s;
-}
-
-.add-btn:hover {
-    background: #14cc00;
-    box-shadow: 0 0 15px #1aff00;
 }
 
 /* Tytuł strony */

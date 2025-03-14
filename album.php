@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require 'php/db.php';
 $id = $_GET['id'] ?? null;
 
 if ($id === null || !is_numeric($id)) {
@@ -27,7 +27,7 @@ if (!$album) {
 <head>
     <meta charset="UTF-8">
     <title><?= $album['wykonawca']?> - <?= $album['tytuł'] ?></title>
-    <link rel="stylesheet" href="album.css">
+    <link rel="stylesheet" href="css/album.css">
 </head>
 <body>
 

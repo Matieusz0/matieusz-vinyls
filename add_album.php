@@ -1,8 +1,8 @@
 <?php
-require 'db.php';
+require 'php/db.php';
 
 session_start();
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     header("Location: access_denied.php");
     exit();
 }
@@ -83,7 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Dodaj Album</title>
-    <link rel="stylesheet" href="add_album.css">
+    <link rel="stylesheet" href="css/add_album.css">
+    <script src="js/add_album.js" defer></script>
 </head>
 <body>
     <div>
@@ -146,40 +147,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
         <button type="submit">Dodaj</button>
         </form>
-        <script>
-        // 🔹 PODGLĄD ZDJĘCIA PRZED WYSŁANIEM
-        function previewZdjecie(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function () {
-        const zdjeciePreview = document.getElementById('zdjeciePreview');
-        zdjeciePreview.style.display = 'flex';
-        zdjeciePreview.innerHTML = `<img src="${reader.result}" alt="Preview">`;
-        }
-
-        if (file) {
-        reader.readAsDataURL(file);
-        }
-        }
-
-        // 🔹 PODGLĄD DRUGIEGO ZDJĘCIA PRZED WYSŁANIEM
-        function previewZdjecie2(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function () {
-        const zdjeciePreview2 = document.getElementById('zdjeciePreview2');
-        zdjeciePreview2.style.display = 'flex';
-        zdjeciePreview2.innerHTML = `<img src="${reader.result}" alt="Preview">`;
-        }
-
-        if (file) {
-        reader.readAsDataURL(file);
-        }
-        }
-
-        </script>
     <div>
 </body>
 </html>
