@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2025 at 08:39 PM
+-- Generation Time: Mar 14, 2025 at 03:17 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -49,11 +49,9 @@ CREATE TABLE `albumy` (
 
 INSERT INTO `albumy` (`id`, `tytuł`, `opis`, `gatunek_id`, `data_wydania`, `ilosc_plyt`, `piosenki`, `cena`, `zdjecie`, `wykonawca`, `created_at`, `updated_at`, `zdjecie2`) VALUES
 (1, 'Ride the lighting', 'test opisu', 2, 1984, 1, 'A1\nFight Fire With Fire\nRide The Lightning\nFor Whom The Bell Tolls\nFade To Black\n\n\nB1\nTrapped Under Ice\nEscape\nCreeping Death\nThe Call Of Ktulu', 100.00, 'uploads/1741522589_R-6091189-1410824757-6361.jpg', 'Metallica', '2025-03-10 15:30:31', '2025-03-10 15:31:27', NULL),
-(16, '111', '', 6, 0, 0, '', 111.00, NULL, '11111111', '2025-03-10 17:45:13', '2025-03-10 17:45:13', NULL),
-(17, '1111', '', 5, 0, 0, '', 0.00, 'uploads/1741628944_IMG_8958.jpg', '1111', '2025-03-10 17:49:04', '2025-03-10 17:49:04', NULL),
 (18, 'Ride the lighting2', '', 6, 0, 0, '', 0.00, 'uploads/1741719360_ezgif-3-38d3c87a91.gif', 'test', '2025-03-11 18:56:00', '2025-03-11 18:56:00', NULL),
 (19, 'testowa muzyka', '', 1, 0, 0, '', 0.00, 'uploads/1741719396_2022-04-09_17.02.30.png', 'testowy wykonawcatt', '2025-03-11 18:56:36', '2025-03-11 18:56:36', NULL),
-(20, 'rj8242uh321', '', 7, 0, 0, '', 0.00, 'uploads/1741719410_SANGUE BLU_album_cover.jpg', 'testowywya', '2025-03-11 18:56:50', '2025-03-11 18:56:50', NULL);
+(21, 'zabojstwo liryczne', '', 5, 2014, 2, '', 2000.00, 'uploads/1741955220_600x600bb (6).jpg', 'sentino', '2025-03-14 12:27:00', '2025-03-14 12:27:00', 'uploads/1741955220_600x600bb (2).jpg');
 
 -- --------------------------------------------------------
 
@@ -89,16 +87,9 @@ INSERT INTO `gatunki` (`id`, `nazwa`) VALUES
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `PASSWORD` varchar(255) NOT NULL
+  `PASSWORD` varchar(255) NOT NULL,
+  `is_admin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `PASSWORD`) VALUES
-(2, 'matieusz', '$2y$10$UygU8UH3baoQPLYSH0OEwOI1c6VIm/Fo346BPKDCCr/BuMcSBvRLy');
-
 --
 -- Indeksy dla zrzutów tabel
 --
@@ -136,7 +127,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `albumy`
 --
 ALTER TABLE `albumy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `gatunki`
@@ -148,7 +139,7 @@ ALTER TABLE `gatunki`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
