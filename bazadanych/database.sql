@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2025 at 03:17 PM
+-- Generation Time: Mar 15, 2025 at 10:55 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -40,18 +40,18 @@ CREATE TABLE `albumy` (
   `wykonawca` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `zdjecie2` varchar(255) DEFAULT NULL
+  `zdjecie2` varchar(255) DEFAULT NULL,
+  `spotify_link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `albumy`
 --
 
-INSERT INTO `albumy` (`id`, `tytuł`, `opis`, `gatunek_id`, `data_wydania`, `ilosc_plyt`, `piosenki`, `cena`, `zdjecie`, `wykonawca`, `created_at`, `updated_at`, `zdjecie2`) VALUES
-(1, 'Ride the lighting', 'test opisu', 2, 1984, 1, 'A1\nFight Fire With Fire\nRide The Lightning\nFor Whom The Bell Tolls\nFade To Black\n\n\nB1\nTrapped Under Ice\nEscape\nCreeping Death\nThe Call Of Ktulu', 100.00, 'uploads/1741522589_R-6091189-1410824757-6361.jpg', 'Metallica', '2025-03-10 15:30:31', '2025-03-10 15:31:27', NULL),
-(18, 'Ride the lighting2', '', 6, 0, 0, '', 0.00, 'uploads/1741719360_ezgif-3-38d3c87a91.gif', 'test', '2025-03-11 18:56:00', '2025-03-11 18:56:00', NULL),
-(19, 'testowa muzyka', '', 1, 0, 0, '', 0.00, 'uploads/1741719396_2022-04-09_17.02.30.png', 'testowy wykonawcatt', '2025-03-11 18:56:36', '2025-03-11 18:56:36', NULL),
-(21, 'zabojstwo liryczne', '', 5, 2014, 2, '', 2000.00, 'uploads/1741955220_600x600bb (6).jpg', 'sentino', '2025-03-14 12:27:00', '2025-03-14 12:27:00', 'uploads/1741955220_600x600bb (2).jpg');
+INSERT INTO `albumy` (`id`, `tytuł`, `opis`, `gatunek_id`, `data_wydania`, `ilosc_plyt`, `piosenki`, `cena`, `zdjecie`, `wykonawca`, `created_at`, `updated_at`, `zdjecie2`, `spotify_link`) VALUES
+(1, 'Ride the lighting', 'test opisu', 2, 1984, 1, 'A1\nFight Fire With Fire\nRide The Lightning\nFor Whom The Bell Tolls\nFade To Black\n\n\nB1\nTrapped Under Ice\nEscape\nCreeping Death\nThe Call Of Ktulu', 100.00, 'uploads/1741522589_R-6091189-1410824757-6361.jpg', 'Metallica', '2025-03-10 15:30:31', '2025-03-15 13:50:06', NULL, 'https://open.spotify.com/embed/album/4K5E5mWQbECn9aThu6Xnkx?utm_source=generator'),
+(18, 'Ride the lighting2', '', 6, 0, 0, '', 0.00, 'uploads/1741719360_ezgif-3-38d3c87a91.gif', 'test', '2025-03-11 18:56:00', '2025-03-15 13:49:53', NULL, 'https://open.spotify.com/embed/album/4K5E5mWQbECn9aThu6Xnkx?utm_source=generator'),
+(21, 'zabojstwo liryczne', '', 5, 2014, 2, '', 2000.00, 'uploads/1741955220_600x600bb (6).jpg', 'sentino', '2025-03-14 12:27:00', '2025-03-15 13:45:51', 'uploads/1741955220_600x600bb (2).jpg', 'https://open.spotify.com/embed/album/6URZMD6QoJkPl0N5sWNl9Z?utm_source=generator');
 
 -- --------------------------------------------------------
 
@@ -90,9 +90,6 @@ CREATE TABLE `users` (
   `PASSWORD` varchar(255) NOT NULL,
   `is_admin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
---
--- Indeksy dla zrzutów tabel
---
 
 --
 -- Indeksy dla tabeli `albumy`
