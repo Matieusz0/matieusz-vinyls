@@ -47,9 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/login.js" defer></script>
 </head>
 <body>
+    <button type="button" class="back-btn" onclick="window.location.href='index.php'">🔙 Powrót</button>
     <div class="login-container">
         <h2>Zaloguj się</h2>
         <form action="login.php" method="post">
