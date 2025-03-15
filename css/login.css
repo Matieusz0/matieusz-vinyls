@@ -1,0 +1,156 @@
+/* Resetowanie stylów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tło i czcionki */
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Tło z gwiazdkami */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+    z-index: -1;
+}
+
+/* Kontener logowania */
+.login-container {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 300px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/* Tytuł logowania */
+.login-container h2 {
+    font-size: 24px;
+    text-shadow: 0 0 15px #a100ff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Pola formularza */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid #a100ff;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Przycisk logowania */
+.login-container button[type="submit"] {
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.login-container button[type="submit"]:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* Przycisk powrotu */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* Styl błędu */
+.error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Light mode styles */
+body.light-mode {
+    background-color: white;
+    color: black;
+    transition: 0.3s;
+}
+
+body.light-mode::before {
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+    opacity: 0.7;
+}
+
+body.light-mode .login-container {
+    background: rgba(230, 230, 230, 0.8);
+    box-shadow: 0 0 10px rgba(128, 192, 255, 0.8);
+    color: black;
+    opacity: 0.9;
+}
+
+body.light-mode .login-container h2 {
+    color: black;
+    text-shadow: 0 0 5px #80C0FF;
+}
+
+body.light-mode .login-container input[type="text"],
+body.light-mode .login-container input[type="password"] {
+    background: white;
+    color: black;
+    border: 2px solid #80C0FF;
+}
+
+body.light-mode .login-container button[type="submit"] {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .login-container button[type="submit"]:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+body.light-mode .back-btn {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .back-btn:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
