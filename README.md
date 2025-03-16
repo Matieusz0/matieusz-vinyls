@@ -4,7 +4,7 @@
 Dzięki niej możesz **przechowywać, filtrować, wyszukiwać i dodawać albumy**, a także śledzić **wartość swojej kolekcji**.  
 To nie jest zwykła lista – tutaj masz pełną kontrolę nad swoim zbiorem! 💿✨
 
-![image](https://github.com/user-attachments/assets/cc2d66f7-aa1b-4f7d-86f2-ac85ced231a5)
+![image](https://github.com/user-attachments/assets/05a2dc5b-5b1a-4042-9051-625d9c0accff)
 
 ---
 

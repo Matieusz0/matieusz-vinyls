@@ -8,7 +8,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
 }
 
 // 🔹 POBIERANIE GATUNKOW
-$gatunki = $pdo->query("SELECT * FROM gatunki")->fetchAll(PDO::FETCH_ASSOC);
+$gatunkiStmt = $pdo->prepare("SELECT * FROM gatunki ORDER BY nazwa ASC");
+$gatunkiStmt->execute();
+$gatunki = $gatunkiStmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $wykonawca = $_POST['wykonawca'] ?? null;
@@ -45,15 +47,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $nowy_gatunek = trim($nowy_gatunek);
             $nowy_gatunek = ucfirst(strtolower($nowy_gatunek));
     
-            $stmt = $pdo->prepare("SELECT id FROM gatunki WHERE nazwa = ?");
-            $stmt->execute([$nowy_gatunek]);
+            $stmt = $pdo->prepare("SELECT id FROM gatunki WHERE nazwa = :nowy_gatunek");
+            $stmt->bindParam(':nowy_gatunek', $nowy_gatunek, PDO::PARAM_STR);
+            $stmt->execute();
             $existing_gatunek = $stmt->fetch(PDO::FETCH_ASSOC);
     
             if ($existing_gatunek) {
                 $gatunek_id = $existing_gatunek['id'];
             } else {
-                $stmt = $pdo->prepare("INSERT INTO gatunki (nazwa) VALUES (?)");
-                $stmt->execute([$nowy_gatunek]);
+                $stmt = $pdo->prepare("INSERT INTO gatunki (nazwa) VALUES (:nowy_gatunek)");
+                $stmt->bindParam(':nowy_gatunek', $nowy_gatunek, PDO::PARAM_STR);
+                $stmt->execute();
     
                 $gatunek_id = $pdo->lastInsertId();
                 error_log("Nowy gatunek dodany: $nowy_gatunek, ID: $gatunek_id");
@@ -70,9 +74,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // 🔹 DODAWANIE ALBUMU
-    $stmt = $pdo->prepare("INSERT INTO albumy (wykonawca, tytuł, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, zdjecie2, spotify_link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$wykonawca, $tytuł, $opis, $gatunek_id, $data_wydania, $ilosc_plyt, $piosenki, $cena, $zdjecie, $zdjecie2, $spotify_link]);
+    $stmt = $pdo->prepare("INSERT INTO albumy 
+    (wykonawca, `tytuł`, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, zdjecie2, spotify_link) 
+    VALUES 
+    (:wykonawca, :tytul, :opis, :gatunek_id, :data_wydania, :ilosc_plyt, :piosenki, :cena, :zdjecie, :zdjecie2, :spotify_link)");
 
+$stmt->bindParam(':wykonawca', $wykonawca, PDO::PARAM_STR);
+$stmt->bindParam(':tytul', $tytuł, PDO::PARAM_STR); // 🛠 Poprawiona nazwa parametru!
+$stmt->bindParam(':opis', $opis, PDO::PARAM_STR);
+$stmt->bindParam(':gatunek_id', $gatunek_id, PDO::PARAM_INT);
+$stmt->bindParam(':data_wydania', $data_wydania, PDO::PARAM_INT);
+$stmt->bindParam(':ilosc_plyt', $ilosc_plyt, PDO::PARAM_INT);
+$stmt->bindParam(':piosenki', $piosenki, PDO::PARAM_STR);
+$stmt->bindParam(':cena', $cena, PDO::PARAM_STR);
+$stmt->bindParam(':zdjecie', $zdjecie, PDO::PARAM_STR);
+$stmt->bindParam(':zdjecie2', $zdjecie2, PDO::PARAM_STR);
+$stmt->bindParam(':spotify_link', $spotify_link, PDO::PARAM_STR);
+
+// ✅ DEBUGUJ WARTOŚCI PRZED `execute()`
+error_log("🔍 Wartości przed execute: " . print_r([
+    'wykonawca' => $wykonawca,
+    'tytul' => $tytuł,
+    'opis' => $opis,
+    'gatunek_id' => $gatunek_id,
+    'data_wydania' => $data_wydania,
+    'ilosc_plyt' => $ilosc_plyt,
+    'piosenki' => $piosenki,
+    'cena' => $cena,
+    'zdjecie' => $zdjecie,
+    'zdjecie2' => $zdjecie2,
+    'spotify_link' => $spotify_link
+], true));
+
+$stmt->execute();
     header("Location: index.php");
     exit();
 }
