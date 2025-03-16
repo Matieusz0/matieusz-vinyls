@@ -1,4 +1,4 @@
-/* Resetowanie stylów */
+/* Resetowanie styli */
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +14,7 @@ body {
     text-align: center;
 }
 
-/* Tło z gwiazdkami */
+/* Tło z gwiazdami */
 body::before {
     content: "";
     position: fixed;
@@ -27,65 +27,113 @@ body::before {
     z-index: -1;
 }
 
-/* Tytuł */
+/* Tytuł na górze strony */
 h1 {
-    font-size: 24px;
+    font-size: 36px;
     text-shadow: 0 0 15px #a100ff;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
-/* Formularz */
-form {
+/* Kontener na całą zawartość */
+.album-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Główna zawartość (okładka + informacje) */
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+/* Okładka płyty */
+.cover {
+    position: relative;
+}
+
+.cover img {
+    width: 550px;
+    height: auto;
+    border-radius: 10px;
+    margin-right: 40px;
+    transition: opacity 1.0s ease, box-shadow 0.3s ease;
+}
+
+.album-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 1.0s ease, box-shadow 0.3s ease;
+}
+
+.cover:hover .album-img-hover {
+    opacity: 1;
+}
+
+.cover:hover .album-img {
+    opacity: 0;
+    box-shadow: none; /* Remove box shadow when hovering */
+    transition: opacity 1.0s ease, box-shadow 0.3s ease;
+}
+
+/* Informacje o albumie */
+.album-details {
     background: rgba(20, 20, 20, 0.8);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
-    width: 25%;
+    width: 50%;
     margin: 0 auto;
     text-align: left;
-}
-
-/* Nagłówek formularza */
-label {
-    display: block;
-    margin: 5px 0 3px;
-    font-weight: bold;
-    color: #ffffff;
-    text-shadow: 0 0 15px #a100ff;
-    font-size: 16px;
-}
-
-/* Pola formularza */
-input[type="text"], input[type="number"], textarea, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 2px solid #a100ff;
-    background: rgba(255, 255, 255, 0.1);
     color: white;
-    font-size: 14px;
-    text-align: center;
 }
 
-/* Zmiana kursora na tekstowy */
-textarea {
-    resize: vertical;
-    min-height: 80px;
+.album-details img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin: 10px 0;
 }
 
-/* Przyciski */
-.przyciski {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+.spotify-player {
+    margin-top: 20px;
+}
+
+/* Stylizacja tekstu */
+.label {
+    font-weight: bold;
+    color: #a100ff;
+}
+
+/* Neonowy efekt */
+.album-details p,
+.album-details li {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px #a100ff;
+}
+
+/* Lista piosenek */
+.album-details ul {
+    list-style-type: none;
 }
 
 /* Przycisk powrotu */
-.back-btn {
+button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
     padding: 10px 20px;
     background: #a100ff;
     color: white;
@@ -96,247 +144,9 @@ textarea {
     transition: 0.3s;
 }
 
-.back-btn:hover {
+button:hover {
     background: #7300b3;
     box-shadow: 0 0 15px #a100ff;
-}
-
-/* Przycisk wysyłania formularza */
-form label, form input, form button {
-    margin: 5px 0;
-}
-
-/* Przycisk wysyłania formularza */
-select {
-    background-color: rgba(20, 20, 20, 0.8);
-    border: 2px solid #a100ff;
-    color: white;
-    font-size: 14px;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-}
-
-select option {
-    background-color: rgba(20, 20, 20, 0.9);
-    color: white;
-    font-size: 14px;
-    padding: 10px;
-    border: none;
-    text-align: center;
-}
-
-select option:hover {
-    background-color: #a100ff;
-    color: black;
-}
-
-input[type="file"] {
-    display: none; 
-}
-
-label[for="zdjecie"], label[for="zdjecie2"] {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #a100ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #a100ff;
-    transition: 0.3s;
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 16px;
-}
-
-label[for="zdjecie"]:hover, label[for="zdjecie2"]:hover {
-    background: #7300b3;
-    box-shadow: 0 0 15px #a100ff;
-}
-
-/* Zdjęcie preview */
-label[for="zdjecie"] {
-    width: 100%;
-    text-align: center;
-    height: 40px;
-    padding: 10px 20px;
-    background: #a100ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #a100ff;
-    transition: 0.3s;
-    font-size: 14px;
-    margin-right: 15px;
-}
-
-label[for="zdjecie"]:hover {
-    background: #7300b3;
-    box-shadow: 0 0 15px #a100ff;
-}
-
-.zdjecie-upload-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px; 
-    width: 100%;
-}
-
-.zdjecie-preview {
-    margin-left: 15px;
-    width: 100px; 
-    height: 100px;
-    border: 2px solid #a100ff;
-    border-radius: 5px;
-    overflow: hidden;
-    display: none; 
-    justify-content: center;
-    align-items: center;
-}
-
-.zdjecie-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-button[type="submit"] {
-    padding: 10px 20px;
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #28a745;
-    transition: 0.3s;
-    width: 100%;
-}
-
-button[type="submit"]:hover {
-    background: #218838;
-    box-shadow: 0 0 15px #28a745;
-}
-
-/* Form steps */
-.form-step {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.form-step.active {
-    display: block;
-    opacity: 1;
-}
-
-.next-btn, .prev-btn, button[type="submit"] {
-    padding: 10px 20px;
-    background: #a100ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #a100ff;
-    transition: 0.3s;
-    margin-top: 10px;
-    font-size: 16px;
-    width: auto;
-    display: inline-block;
-}
-
-.next-btn:hover, .prev-btn:hover {
-    background: #7300b3;
-    box-shadow: 0 0 15px #a100ff;
-}
-
-button[type="submit"] {
-    background: #28a745;
-    box-shadow: 0 0 10px #28a745;
-    color: white;
-}
-
-button[type="submit"]:hover {
-    background: #218838;
-    box-shadow: 0 0 15px #28a745;
-}
-
-/* Dark mode styles */
-body.dark-mode {
-    background-color: black;
-    color: white;
-    transition: 0.3s;
-}
-
-body.dark-mode::before {
-    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
-}
-
-body.dark-mode h1 {
-    color: white;
-    text-shadow: 0 0 15px #a100ff;
-}
-
-body.dark-mode form {
-    background: rgba(20, 20, 20, 0.8);
-    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
-    color: white;
-}
-
-body.dark-mode label {
-    color: white;
-    text-shadow: 0 0 15px #a100ff;
-}
-
-body.dark-mode input[type="text"], 
-body.dark-mode input[type="number"], 
-body.dark-mode textarea, 
-body.dark-mode select {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 2px solid #a100ff;
-}
-
-body.dark-mode .back-btn {
-    background: #a100ff;
-    box-shadow: 0 0 10px #a100ff;
-}
-
-body.dark-mode .back-btn:hover {
-    background: #7300b3;
-    box-shadow: 0 0 15px #a100ff;
-}
-
-body.dark-mode label[for="zdjecie"], 
-body.dark-mode label[for="zdjecie2"] {
-    background: #a100ff;
-    box-shadow: 0 0 10px #a100ff;
-}
-
-body.dark-mode label[for="zdjecie"]:hover, 
-body.dark-mode label[for="zdjecie2"]:hover {
-    background: #7300b3;
-    box-shadow: 0 0 15px #a100ff;
-}
-
-body.dark-mode .zdjecie-preview {
-    border: 2px solid #a100ff;
-}
-
-body.dark-mode button[type="submit"] {
-    background: #28a745;
-    box-shadow: 0 0 10px #28a745;
-}
-
-body.dark-mode button[type="submit"]:hover {
-    background: #218838;
-    box-shadow: 0 0 15px #28a745;
 }
 
 /* Light mode styles */
@@ -356,71 +166,96 @@ body.light-mode h1 {
     text-shadow: 0 0 5px #80C0FF;
 }
 
-body.light-mode form {
+body.light-mode .album-details {
     background: rgba(230, 230, 230, 0.8);
     box-shadow: 0 0 10px rgba(128, 192, 255, 0.8);
     color: black;
     opacity: 0.9;
 }
 
-body.light-mode label {
+body.light-mode .label {
+    color: #80C0FF;
+}
+
+body.light-mode .album-details p,
+body.light-mode .album-details li {
     color: black;
     text-shadow: 0 0 5px #80C0FF;
 }
 
-body.light-mode input[type="text"], 
-body.light-mode input[type="number"], 
-body.light-mode textarea, 
-body.light-mode select {
-    background: white;
-    color: black;
-    border: 2px solid #80C0FF;
+body.light-mode .album-details ul {
+    list-style-type: none;
 }
 
-body.light-mode .back-btn {
+body.light-mode button {
     background: #80C0FF;
     box-shadow: 0 0 10px #80C0FF;
 }
 
-body.light-mode .back-btn:hover {
+body.light-mode button:hover {
     background: #4D94FF;
     box-shadow: 0 0 15px #80C0FF;
 }
 
-body.light-mode label[for="zdjecie"], 
-body.light-mode label[for="zdjecie2"] {
-    background: #80C0FF;
-    box-shadow: 0 0 10px #80C0FF;
+body.light-mode .cover img {
+    box-shadow: 0 0 15px rgba(128, 192, 255, 0.8); /* Box shadow for album cover in light mode */
 }
 
-body.light-mode label[for="zdjecie"]:hover, 
-body.light-mode label[for="zdjecie2"]:hover {
-    background: #4D94FF;
-    box-shadow: 0 0 15px #80C0FF;
+body.light-mode .cover:hover .album-img-hover {
+    box-shadow: 0 0 15px rgba(128, 192, 255, 0.8); /* Box shadow for album cover on hover in light mode */
 }
 
-body.light-mode .zdjecie-preview {
-    border: 2px solid #80C0FF;
+/* Dark mode styles */
+body.dark-mode {
+    background-color: black;
+    color: white;
+    transition: 0.3s;
 }
 
-body.light-mode button[type="submit"] {
-    background: #28a745;
-    box-shadow: 0 0 10px #28a745;
+body.dark-mode::before {
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+    opacity: 0.7;
+}
+
+body.dark-mode h1 {
+    color: white;
+    text-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode .album-details {
+    background: rgba(20, 20, 20, 0.8);
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
     color: white;
 }
 
-body.light-mode button[type="submit"]:hover {
-    background: #218838;
-    box-shadow: 0 0 15px #28a745;
+body.dark-mode .label {
+    color: #a100ff;
 }
 
-body.light-mode .next-btn, body.light-mode .prev-btn {
-    background: #80C0FF;
-    box-shadow: 0 0 10px #80C0FF;
+body.dark-mode .album-details p,
+body.dark-mode .album-details li {
+    color: white;
+    text-shadow: 0 0 5px #a100ff;
 }
 
-body.light-mode .next-btn:hover, body.light-mode .prev-btn:hover {
-    background: #4D94FF;
-    box-shadow: 0 0 15px #80C0FF;
+body.dark-mode .album-details ul {
+    list-style-type: none;
 }
 
+body.dark-mode button {
+    background: #a100ff;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+body.dark-mode button:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode .cover img {
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Box shadow for album cover in dark mode */
+}
+
+body.dark-mode .cover:hover .album-img-hover {
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Box shadow for album cover on hover in dark mode */
+}
