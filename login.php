@@ -11,32 +11,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
-    if (!$conn) {
+    if (!$pdo) {
         $error = "Błąd serwera. Spróbuj ponownie później.";
     } else {
-        $stmt = $conn->prepare("SELECT username, password, is_admin FROM users WHERE username = ?");
-        if ($stmt === false) {
-            $error = "Błąd serwera. Spróbuj ponownie później.";
-        } else {
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $result = $stmt->get_result();
+        $stmt = $pdo->prepare("SELECT username, password, is_admin FROM users WHERE username = :username");
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($result->num_rows === 1) {
-                $user = $result->fetch_assoc();
-                if (password_verify($password, $user['password'])) {
-                    $_SESSION['is_admin'] = $user['is_admin'];
-                    header("Location: index.php");
-                    exit();
-                } else {
-                    $error = "Nieprawidłowe hasło!";
-                }
-            } else {
-                $error = "Nie znaleziono użytkownika!";
-            }
-            $stmt->close();
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['is_admin'] = $user['is_admin'];
+            header("Location: index.php");
+            exit();
+        } else {
+            $error = "Nieprawidłowe hasło lub nazwa użytkownika!";
         }
-        $conn->close();
     }
 }
 ?>
