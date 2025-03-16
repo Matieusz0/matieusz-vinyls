@@ -436,6 +436,13 @@
     height: 200px;
 }
 
+.recent-album .album-text h3,
+.recent-album .album-text h2,
+.recent-album .album-text p {
+    color: white;
+    text-shadow: 0 0 10px #a100ff;
+}
+
 /* łączną wartość kolekcji */
 .total-value {
     background: rgba(20, 20, 20, 0.8);
@@ -458,32 +465,6 @@
     text-shadow: 0 0 10px #a100ff;
     font-size: 24px;
     margin: 10px 0 0;
-}
-
-/* ostatnio dodany album */
-.recent-album {
-    background: rgba(20, 20, 20, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
-    width: 300px;
-}
-
-.recent-album h2 {
-    color: white;
-    text-shadow: 0 0 10px #a100ff;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.recent-album .album {
-    width: 250px;
-    margin: 0 auto;
-}
-
-.recent-album .album img {
-    width: 200px;
-    height: 200px;
 }
 
 /* prawa kolumna */
@@ -939,4 +920,102 @@ body.light-mode .album.selected {
 body.dark-mode .album.selected {
     background: rgba(255, 0, 0, 0.5); /* Red background for better visibility in dark mode */
     color: white;
+}
+
+/* Slide show container */
+.stats-slideshow {
+    position: relative;
+    width: 300px; /* Match the width of the recent-album and total-value containers */
+    height: 154px;
+    overflow: hidden;
+    background: rgba(20, 20, 20, 0.8); /* Match recent-album background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Match recent-album box shadow */
+}
+
+/* Single slide */
+.stat-slide {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 114px;
+    text-align: center;
+    border-radius: 10px;
+    transition: opacity 1s ease-in-out;
+    background: rgba(20, 20, 20, 0.8); /* Match recent-album background */
+    padding: 10px;
+    /* Removed inner box shadow */
+}
+
+.stat-slide h2 {
+    color: #ffffff;
+    text-shadow: 0 0 10px #a100ff;
+}
+
+.stat-slide p {
+    color: white;
+    text-shadow: 0 0 10px #a100ff;
+    font-size: 24px;
+    margin: 10px 0 0;
+}
+
+/* Chart container */
+.chart-container {
+    position: relative;
+    width: 300px; /* Match the width of the recent-album and total-value containers */
+    height: auto;
+    overflow: hidden;
+    margin-top: 20px;
+    background: rgba(20, 20, 20, 0.8); /* Match recent-album background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Match recent-album box shadow */
+    text-align: center;
+}
+
+.chart-container h2 {
+    color: #fcfcfc;
+    text-shadow: 0 0 10px #a100ff;
+    margin-bottom: 20px;
+}
+
+/* Light mode styles */
+body.light-mode .stats-slideshow,
+body.light-mode .stat-slide,
+body.light-mode .chart-container {
+    background: rgba(230, 230, 230, 0.8); /* Match recent-album background */
+    box-shadow: 0 0 10px rgba(128, 192, 255, 1); /* Match recent-album box shadow */
+}
+
+body.light-mode .stat-slide h2,
+body.light-mode .chart-container h2 {
+    color: #000000;
+    text-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .stat-slide p,
+body.light-mode .chart-container p {
+    color: black;
+    text-shadow: 0 0 5px #80C0FF;
+}
+
+/* Dark mode styles */
+body.dark-mode .stats-slideshow,
+body.dark-mode .stat-slide,
+body.dark-mode .chart-container {
+    background: rgba(20, 20, 20, 0.8); /* Match recent-album background */
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Match recent-album box shadow */
+}
+
+body.dark-mode .stat-slide h2,
+body.dark-mode .chart-container h2 {
+    color: #ffffff;
+    text-shadow: 0 0 10px #a100ff;
+}
+
+body.dark-mode .stat-slide p,
+body.dark-mode .chart-container p {
+    color: white;
+    text-shadow: 0 0 10px #a100ff;
 }
