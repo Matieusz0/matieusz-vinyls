@@ -254,26 +254,8 @@
     transition: 0.3s;
 }
 
-/* Kontener na albumy */
-.albums-container {
-    background: rgba(20, 20, 20, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
-    width: 100%; /* Ensure the container takes the full width */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
 
 /* Kontener albumów */
-.albums {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    transition: 0.3s;
-    justify-content: center;  
-    width: 100%;
-}
-
 .album.hidden {
     opacity: 0;
     transform: scale(0.9);
@@ -292,6 +274,8 @@
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
     text-align: center;
     transition: opacity 0.5s ease, transform 0.5s ease, width 0.5s ease, height 0.5s ease, margin 0.5s ease;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .album:hover {
@@ -329,7 +313,7 @@
 }
 
 .albums {
-    transition: 0.5s;
+    transition: opacity 0.5s;
 }
 
 .container {
@@ -345,7 +329,6 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
-    position: sticky;
     top: 20px;
     height: fit-content;
 }
@@ -467,40 +450,34 @@
     margin: 10px 0 0;
 }
 
-/* prawa kolumna */
-.right-column {
+/* Kontener na prawą kolumnę */
+.right-column-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 300px; /* Szerokość prawego kontenera */
+    position: sticky;
+    top: 20px;
+    height: fit-content;
 }
 
 .album-content {
     position: relative;
 }
 
-.album-img-hover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+/* Removed styles for .album-img-hover and hover effects */
+.album-content {
+    position: relative;
+}
+
+.album img {
+    width: 250px;
+    height: 250px;
     object-fit: cover;
     border-radius: 10px;
-    opacity: 0;
+    box-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
     transition: opacity 1.0s ease;
-}
-
-.album-img-hover {
-    opacity: 0;
-}
-
-.album-content:hover .album-img-hover {
-    opacity: 1;
-}
-
-.album-content:hover .album-img {
-    opacity: 0;
 }
 
 .album.selected {
@@ -514,21 +491,152 @@
     transition: background 0.3s ease;
 }
 
-/* Disable hover effect when deleting albums */
-.albums-container.disable-hover .album-content:hover .album-img-hover {
-    opacity: 0;
-}
-
-.albums-container.disable-hover .album-content:hover .album-img {
-    opacity: 1;
-}
-
 /* Kontener główny */
 .main-container {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
+    display: grid;
+    grid-template-columns: 250px auto 300px; /* Lewa kolumna | Środek (albumy) | Prawa kolumna */
     gap: 20px;
+    padding: 10px;
+    align-items: start; /* Uniknie rozciągania kolumn */
+}
+
+/* Lewa kolumna */
+.left-column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    position: sticky;
+    top: 10px; /* Kluczowe – mówi, że ma się „przyklejać” od góry */
+    height: fit-content; /* Zapobiega nieoczekiwanym efektom */
+}
+
+/* Stylizacja albumów */
+.album {
+    background: rgba(20, 20, 20, 0.8);
+    padding: 15px;
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease, width 0.5s ease, height 0.5s ease, margin 0.5s ease;
+}
+
+.album:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.album img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
+    transition: opacity 1.0s ease;
+}
+
+.album h3 {
+    font-size: 18px;
+    margin-top: 10px;
+    text-shadow: 0 0 10px #a100ff;
+    color: white;
+}
+
+.album h2 {
+    font-size: 22px;
+    margin-top: 5px;
+    text-shadow: 0 0 15px #a100ff;
+    color: white;
+}
+
+.album p {
+    margin-top: 10px;
+    font-size: 16px;
+    text-shadow: 0 0 10px #a100ff;
+    color: white;
+}
+
+/* Kontener na prawą kolumnę */
+.right-column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px; /* Szerokość prawego kontenera */
+}
+
+/* Stylizacja dla przycisków */
+.search-btn, .reset-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-btn {
+    background: #a100ff;
+    color: white;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+.search-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+.reset-btn {
+    background: #ff0000;
+    color: white;
+    box-shadow: 0 0 10px #ff0000;
+    margin-top: 10px;
+}
+
+.reset-btn:hover {
+    background: #cc0000;
+    box-shadow: 0 0 15px #ff0000;
+}
+
+/* Tryb jasny dla przycisków */
+body.light-mode .search-btn {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .search-btn:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+body.light-mode .reset-btn {
+    background: #FF8080;
+    box-shadow: 0 0 10px #FF8080;
+}
+
+body.light-mode .reset-btn:hover {
+    background: #FF4D4D;
+    box-shadow: 0 0 15px #FF8080;
+}
+
+/* Tryb ciemny dla przycisków */
+body.dark-mode .search-btn {
+    background: #a100ff;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+body.dark-mode .search-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode .reset-btn {
+    background: #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+body.dark-mode .reset-btn:hover {
+    background: #cc0000;
+    box-shadow: 0 0 15px #ff0000;
 }
 
 /* Kontener na filtry */
@@ -538,7 +646,6 @@
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
     width: 250px;
-    position: sticky;
     top: 20px;
     height: fit-content;
 }
@@ -580,22 +687,7 @@
     background: #7300b3;
 }
 
-/* Kontener na albumy */
-.albums-main-container {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.albums-container {
-    background: rgba(20, 20, 20, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
-    width: 100%; /* Ensure the container takes the full width */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
+/* Kontener na albumy *
 
 /* Kontener albumów */
 .albums {
@@ -661,41 +753,11 @@
     color: white;
 }
 
-/* prawa kolumna */
-.right-column-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
 .album-content {
     position: relative;
 }
 
-.album-img-hover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    opacity: 0;
-    transition: opacity 1.0s ease;
-}
-
-.album-img-hover {
-    opacity: 0;
-}
-
-.album-content:hover .album-img-hover {
-    opacity: 1;
-}
-
-.album-content:hover .album-img {
-    opacity: 0;
-}
+/* Removed .album-img-hover styles and transitions */
 
 .album.selected {
     background: rgba(255, 255, 255, 0.5);
@@ -762,7 +824,7 @@ body.dark-mode h3 {
     text-shadow: 0 0 20px #a100ff;
 }
 
-body.dark-mode .albums-container,
+
 body.dark-mode .total-value,
 body.dark-mode .recent-album,
 body.dark-mode .filters-container {
@@ -818,7 +880,6 @@ body.light-mode h3 {
     text-shadow: 0 0 5px #80C0FF;
 }
 
-body.light-mode .albums-container,
 body.light-mode .total-value,
 body.light-mode .recent-album,
 body.light-mode .filters-container {
@@ -1018,4 +1079,129 @@ body.dark-mode .stat-slide p,
 body.dark-mode .chart-container p {
     color: white;
     text-shadow: 0 0 10px #a100ff;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pagination-btn {
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+
+    position: sticky;
+    bottom: 10px; /* Zawsze 10px od dołu ekranu */
+    display: block;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto; /* Wyśrodkowanie */
+}
+
+.pagination-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+/* Stylizacja przycisku "Szukaj" */
+.search-btn {
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* Stylizacja przycisku "Resetuj" */
+.reset-btn {
+    padding: 10px 20px;
+    background: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff0000;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.reset-btn:hover {
+    background: #cc0000;
+    box-shadow: 0 0 15px #ff0000;
+}
+
+/* Tryb jasny dla przycisków */
+body.light-mode .search-btn {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .search-btn:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+body.light-mode .reset-btn {
+    background: #FF8080;
+    box-shadow: 0 0 10px #FF8080;
+}
+
+body.light-mode .reset-btn:hover {
+    background: #FF4D4D;
+    box-shadow: 0 0 15px #FF8080;
+}
+
+/* Tryb ciemny dla przycisków */
+body.dark-mode .search-btn {
+    background: #a100ff;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+body.dark-mode .search-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode .reset-btn {
+    background: #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+body.dark-mode .reset-btn:hover {
+    background: #cc0000;
+    box-shadow: 0 0 15px #ff0000;
+}
+
+body.dark-mode .pagination-btn {
+    background: #a100ff;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+body.light-mode .pagination-btn {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .pagination-btn:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+body.dark-mode .pagination-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
 }
