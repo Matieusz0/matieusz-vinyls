@@ -2,12 +2,60 @@
 require 'php/db.php';
 include 'php/admin_check.php';
 
-// 🔹 POBIERANIE ALBUMOW
+// Pobieranie aktualnej strony
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 20;
+$offset = ($page - 1) * $limit;
+
+// Pobieranie parametrów GET
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$gatunek = isset($_GET['gatunek']) ? $_GET['gatunek'] : 'all';
+$cena = isset($_GET['cena']) ? (float)$_GET['cena'] : null;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'cena_desc';
+
+// Budowanie warunków WHERE
+$whereClauses = [];
+if ($search) {
+    $whereClauses[] = "(albumy.tytuł LIKE :search OR albumy.wykonawca LIKE :search)";
+}
+if ($gatunek !== 'all') {
+    $whereClauses[] = "gatunki.nazwa = :gatunek";
+}
+if ($cena) {
+    $whereClauses[] = "albumy.cena <= :cena";
+}
+$whereSql = $whereClauses ? 'WHERE ' . implode(' AND ', $whereClauses) : '';
+
+// Obsługa sortowania
+$orderBy = 'albumy.cena DESC'; // Domyślne sortowanie
+if ($sort === 'cena_asc') {
+    $orderBy = 'albumy.cena ASC';
+} elseif ($sort === 'wykonawca_asc') {
+    $orderBy = 'albumy.wykonawca ASC';
+} elseif ($sort === 'tytul_asc') {
+    $orderBy = 'albumy.tytuł ASC';
+}
+
+// Zapytanie SQL
 $stmt = $pdo->prepare("SELECT albumy.*, gatunki.nazwa AS gatunek 
     FROM albumy 
     LEFT JOIN gatunki ON albumy.gatunek_id = gatunki.id
-    ORDER BY albumy.data_wydania DESC
+    $whereSql
+    ORDER BY $orderBy
+    LIMIT :limit OFFSET :offset
 ");
+
+if ($search) {
+    $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+}
+if ($gatunek !== 'all') {
+    $stmt->bindValue(':gatunek', $gatunek, PDO::PARAM_STR);
+}
+if ($cena) {
+    $stmt->bindValue(':cena', $cena, PDO::PARAM_INT);
+}
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $albums = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -117,98 +165,105 @@ $mostExpensiveAlbum = $mostExpensiveAlbumStmt->fetch(PDO::FETCH_ASSOC);
 
 <!-- 🔹 WYSZUKIWARKA -->
 <div class="search-bar">
-    <input type="text" id="search-input" placeholder="Szukaj albumów...">
+    <form method="GET">
+        <input type="text" name="search" id="search-input" placeholder="Szukaj albumów..." value="<?= htmlspecialchars($search) ?>">
+        <button type="submit" class="search-btn">Szukaj</button>
+    </form>
 </div>
 
-<div class="main-container">  
-    <!-- 🔹 PANEL FILTRÓW PO LEWEJ STRONIE -->
-    <div class="filters-container">
-        <h2>Filtry</h2>
-
-        <label for="gatunek-filter">Gatunek:</label>
-        <select id="gatunek-filter">
-            <option value="all">Wszystkie</option>
-            <?php foreach ($gatunki as $gatunek): ?>
-                <option value="<?= $gatunek['nazwa'] ?>"><?= $gatunek['nazwa'] ?></option>
-            <?php endforeach; ?>
-        </select>
-
-        <label for="cena-filter">Cena do:</label>
-        <input type="number" id="cena-filter" placeholder="Maks. cena">
-
-        <label for="sort-filter">Sortuj według:</label>
-        <select id="sort-filter">
-            <option value="cena_desc">Cena od najwyższej</option>
-            <option value="cena_asc">Cena od najniższej</option>
-            <option value="wykonawca_asc">Alfabetycznie wykonawca</option>
-            <option value="tytul_asc">Alfabetycznie tytuł</option>
-        </select>
-
-        <button id="reset-filters">Resetuj</button>
-    </div>
-
-    <!-- 🔹 FORMULARZ DO USUWANIA ALBUMOW -->
-    <form id="delete-albums-form" method="POST">
-        <input type="hidden" name="albums_to_delete" id="albums-to-delete">
-        <div class="albums-main-container">  
-            <!-- 🔹 KONTENER NA ALBUMY -->
-            <div class="albums-container">
-                <!-- 🔹 LISTA ALBUMOW -->
-                <div class="albums">
-                    <?php foreach ($albums as $album): ?>
-                    <div class="album" data-gatunek="<?= $album['gatunek'] ?>" data-cena="<?= $album['cena'] ?>" data-id="<?= $album['id'] ?>">
-                        <a href="album.php?id=<?= $album['id'] ?>">
-                            <div class="album-content">
-                                <img src="<?= $album['zdjecie'] ?>" alt="<?= $album['tytuł'] ?>" class="album-img">
-                                <img src="<?= $album['zdjecie2'] ?>" alt="<?= $album['tytuł'] ?>" class="album-img-hover">
-                                <div class="album-text">
-                                    <h3><?= $album['wykonawca'] ?></h3>
-                                    <h2><?= $album['tytuł'] ?></h2>
-                                    <?php if (!empty($album['cena'])): ?>
-                                        <p><strong>Cena:</strong> <?= number_format($album['cena']) ?> PLN</p>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<div class="main-container">
+    <!-- Usuń kontener z filtrami -->
+     <div class="left-column-container">
+        <div class="filters-container">
+            <h2>Filtry</h2>
+            <form method="GET">
+                <label for="gatunek-filter">Gatunek:</label>
+                <select name="gatunek" id="gatunek-filter">
+                    <option value="all" <?= isset($_GET['gatunek']) && $_GET['gatunek'] === 'all' ? 'selected' : '' ?>>Wszystkie</option>
+                    <?php foreach ($gatunki as $gatunek): ?>
+                        <option value="<?= $gatunek['nazwa'] ?>" <?= isset($_GET['gatunek']) && $_GET['gatunek'] === $gatunek['nazwa'] ? 'selected' : '' ?>><?= $gatunek['nazwa'] ?></option>
                     <?php endforeach; ?>
+                </select>
+                <label for="cena-filter">Cena do:</label>
+                <input type="number" name="cena" id="cena-filter" placeholder="Maks. cena" value="<?= isset($_GET['cena']) ? htmlspecialchars($_GET['cena']) : '' ?>">
+                <label for="sort-filter">Sortuj według:</label>
+                <select name="sort" id="sort-filter">
+                    <option value="cena_desc" <?= isset($_GET['sort']) && $_GET['sort'] === 'cena_desc' ? 'selected' : '' ?>>Cena od najwyższej</option>
+                    <option value="cena_asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'cena_asc' ? 'selected' : '' ?>>Cena od najniższej</option>
+                    <option value="wykonawca_asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'wykonawca_asc' ? 'selected' : '' ?>>Alfabetycznie wykonawca</option>
+                    <option value="tytul_asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'tytul_asc' ? 'selected' : '' ?>>Alfabetycznie tytuł</option>
+                </select>
+                <button type="submit" class="search-btn">Szukaj</button>
+                <button type="button" id="reset-filters" class="reset-btn">Resetuj</button>
+            </form>
+        </div>
+    </div>
+    <div class="albums-main-container">
+        <div class="albums-container">
+            <div class="albums">
+                <?php foreach ($albums as $album): ?>
+                <div class="album" data-gatunek="<?= $album['gatunek'] ?>" data-cena="<?= $album['cena'] ?>" data-id="<?= $album['id'] ?>">
+                    <a href="album.php?id=<?= $album['id'] ?>">
+                        <div class="album-content">
+                            <img src="<?= $album['zdjecie'] ?>" alt="<?= $album['tytuł'] ?>" class="album-img" loading="lazy">
+                            <div class="album-text">
+                                <h3><?= $album['wykonawca'] ?></h3>
+                                <h2><?= $album['tytuł'] ?></h2>
+                                <?php if (!empty($album['cena'])): ?>
+                                    <p><strong>Cena:</strong> <?= number_format($album['cena']) ?> PLN</p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </a>
                 </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?= $page - 1 ?>" class="pagination-btn">Wróć</a>
+                <?php endif; ?>
+                <?php if ($page * $limit < $totalAlbums): ?>
+                    <a href="?page=<?= $page + 1 ?>" class="pagination-btn">Dalej</a>
+                <?php endif; ?>
             </div>
         </div>
+    </div>
     </form>
 
-<!-- 🔹 DANA ILOSC PIENIEDZY I OSTATNI ALBUM -->
-<div class="right-column-container">
-    <div class="stats-slideshow">
-        <div class="stat-slide">
-            <h2 id="stat-title">Łączna wartość:</h2>
-            <p id="stat-value"><?= number_format($totalValue) ?> PLN</p>
+    <!-- 🔹 PRAWA KOLUMNA -->
+    <div class="right-column-container">
+        <div class="stats-slideshow">
+            <div class="stat-slide">
+                <h2 id="stat-title">Łączna wartość:</h2>
+                <p id="stat-value"><?= number_format($totalValue) ?> PLN</p>
+            </div>
         </div>
-    </div>
 
-    <div class="recent-album">
-        <h2>Ostatnio dodany album</h2>
-        <div class="album">
-            <div class="album-content">
-                <img src="<?= $recentAlbum['zdjecie'] ?>" alt="<?= $recentAlbum['tytuł'] ?>">
-                <div class="album-text">
-                    <h3><?= $recentAlbum['wykonawca'] ?></h3>
-                    <h2><?= $recentAlbum['tytuł'] ?></h2>
-                    <?php if (!empty($recentAlbum['cena'])): ?>
-                        <p><strong>Cena:</strong> <?= number_format($recentAlbum['cena']) ?> PLN</p>
-                    <?php endif; ?>
+        <div class="recent-album">
+            <h2>Ostatnio dodany album</h2>
+            <div class="album">
+                <div class="album-content">
+                    <img src="<?= $recentAlbum['zdjecie'] ?>" alt="<?= $recentAlbum['tytuł'] ?>" loading="lazy">
+                    <div class="album-text">
+                        <h3><?= $recentAlbum['wykonawca'] ?></h3>
+                        <h2><?= $recentAlbum['tytuł'] ?></h2>
+                        <?php if (!empty($recentAlbum['cena'])): ?>
+                            <p><strong>Cena:</strong> <?= number_format($recentAlbum['cena']) ?> PLN</p>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 🔹 CHART CONTAINER -->
-    <div class="chart-container">
-        <h2>Ilość albumów według gatunku</h2>
-        <canvas id="genreChart"></canvas>
+        <!-- 🔹 CHART CONTAINER -->
+        <div class="chart-container">
+            <h2>Ilość albumów według gatunku</h2>
+            <canvas id="genreChart"></canvas>
+        </div>
     </div>
 </div>
-    <script>
+
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     // Slide show for statistics
     const stats = [
@@ -301,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         albumTitle.textContent = recentAlbums[index].title;
         albumContent.innerHTML = `
-            <img src="${album.zdjecie}" alt="${album.tytuł}">
+            <img src="${album.zdjecie}" alt="${album.tytuł}" loading="lazy">
             <div class="album-text">
                 <h3>${album.wykonawca}</h3>
                 <h2>${album.tytuł}</h2>
@@ -318,8 +373,6 @@ document.addEventListener('DOMContentLoaded', function () {
     showAlbum(currentAlbum);
     setInterval(nextAlbum, 5000); // Change album every 5 seconds
 });
-    </script>
-    </div>
-</div>
+</script>
 </body>
 </html>
