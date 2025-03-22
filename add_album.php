@@ -33,15 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $zdjecie = $target_path;
     }
 
-    // 🔹 ZDJECIE2
-    $zdjecie2 = null;
-    if (!empty($_FILES['zdjecie2']['name'])) {
-        $zdjecie2_nazwa = time() . "_" . $_FILES['zdjecie2']['name'];
-        $target_path2 = "uploads/" . $zdjecie2_nazwa;
-        move_uploaded_file($_FILES['zdjecie2']['tmp_name'], $target_path2);
-        $zdjecie2 = $target_path2;
-    }
-
     if (!empty($nowy_gatunek)) {
         try {
             $nowy_gatunek = trim($nowy_gatunek);
@@ -75,9 +66,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // 🔹 DODAWANIE ALBUMU
     $stmt = $pdo->prepare("INSERT INTO albumy 
-    (wykonawca, `tytuł`, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, zdjecie2, spotify_link) 
+    (wykonawca, `tytuł`, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, spotify_link) 
     VALUES 
-    (:wykonawca, :tytul, :opis, :gatunek_id, :data_wydania, :ilosc_plyt, :piosenki, :cena, :zdjecie, :zdjecie2, :spotify_link)");
+    (:wykonawca, :tytul, :opis, :gatunek_id, :data_wydania, :ilosc_plyt, :piosenki, :cena, :zdjecie, :spotify_link)");
 
 $stmt->bindParam(':wykonawca', $wykonawca, PDO::PARAM_STR);
 $stmt->bindParam(':tytul', $tytuł, PDO::PARAM_STR); // 🛠 Poprawiona nazwa parametru!
@@ -88,7 +79,6 @@ $stmt->bindParam(':ilosc_plyt', $ilosc_plyt, PDO::PARAM_INT);
 $stmt->bindParam(':piosenki', $piosenki, PDO::PARAM_STR);
 $stmt->bindParam(':cena', $cena, PDO::PARAM_STR);
 $stmt->bindParam(':zdjecie', $zdjecie, PDO::PARAM_STR);
-$stmt->bindParam(':zdjecie2', $zdjecie2, PDO::PARAM_STR);
 $stmt->bindParam(':spotify_link', $spotify_link, PDO::PARAM_STR);
 
 // ✅ DEBUGUJ WARTOŚCI PRZED `execute()`
@@ -102,7 +92,6 @@ error_log("🔍 Wartości przed execute: " . print_r([
     'piosenki' => $piosenki,
     'cena' => $cena,
     'zdjecie' => $zdjecie,
-    'zdjecie2' => $zdjecie2,
     'spotify_link' => $spotify_link
 ], true));
 
@@ -204,11 +193,6 @@ $stmt->execute();
                 <div class="zdjecie-upload-container">
                     <input type="file" id="zdjecie" name="zdjecie" accept="image/*" onchange="previewZdjecie(event)">
                     <div id="zdjeciePreview" class="zdjecie-preview"></div>
-                </div>
-                <label for="zdjecie2">Wybierz drugie zdjęcie:</label>
-                <div class="zdjecie-upload-container">
-                    <input type="file" id="zdjecie2" name="zdjecie2" accept="image/*" onchange="previewZdjecie2(event)">
-                    <div id="zdjeciePreview2" class="zdjecie-preview"></div>
                 </div>
                 <button type="button" class="prev-btn">Powrót</button>
                 <button type="submit">Dodaj</button>
