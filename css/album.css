@@ -22,8 +22,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://www.transparenttextures.com/patterns/stardust.png');
-    opacity: 0.3;
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
     z-index: -1;
 }
 
@@ -56,34 +55,26 @@ h1 {
     position: relative;
 }
 
+/* Okładka płyty jako winyl */
 .cover img {
     width: 550px;
-    height: auto;
-    border-radius: 10px;
-    margin-right: 40px;
+    height: 550px;
+    border-radius: 50%; /* Sprawia, że obrazek staje się okrągły */
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Efekt blasku */
     transition: opacity 1.0s ease, box-shadow 0.3s ease;
+    object-fit: cover; /* Zapobiega zniekształceniom */
 }
 
 .album-img-hover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    opacity: 0;
-    transition: opacity 1.0s ease, box-shadow 0.3s ease;
+    display: none;
 }
 
 .cover:hover .album-img-hover {
-    opacity: 1;
+    display: none;
 }
 
 .cover:hover .album-img {
-    opacity: 0;
-    box-shadow: none; /* Remove box shadow when hovering */
-    transition: opacity 1.0s ease, box-shadow 0.3s ease;
+    opacity: 1; /* Ensure the main image remains visible */
 }
 
 /* Informacje o albumie */
@@ -213,8 +204,8 @@ body.dark-mode {
 }
 
 body.dark-mode::before {
-    background: url('https://www.transparenttextures.com/patterns/stardust.png');
-    opacity: 0.3;
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+    opacity: 0.9;
 }
 
 body.dark-mode h1 {
@@ -258,4 +249,23 @@ body.dark-mode .cover img {
 
 body.dark-mode .cover:hover .album-img-hover {
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Box shadow for album cover on hover in dark mode */
+}
+
+body.light-mode::before,
+body.dark-mode::before {
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+    opacity: 0.9;
+}
+
+.spin {
+    animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spinning {
+    animation: spin 5s linear infinite;
 }
