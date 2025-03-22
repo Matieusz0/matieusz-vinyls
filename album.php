@@ -42,10 +42,12 @@ if (!$album) {
                 <?php if (!empty($album['zdjecie'])): ?>
                     <img src="<?= $album['zdjecie'] ?>" alt="<?= $album['tytuł'] ?>" class="album-img">
                 <?php endif; ?>
-                <?php if (!empty($album['zdjecie2'])): ?>
-                    <img src="<?= $album['zdjecie2'] ?>" alt="<?= $album['tytuł'] ?>" class="album-img-hover">
-                <?php endif; ?>
             </div>
+            <script>
+                setTimeout(() => {
+                    document.querySelector('.album-img').classList.add('spin');
+                }, 1000);
+            </script>
             
             <div class="album-details">
                 <?php if (!empty($album['opis'])): ?>
