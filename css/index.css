@@ -687,6 +687,29 @@ body.dark-mode .reset-btn:hover {
     background: #7300b3;
 }
 
+/* Stylizacja dla checkboxa "Tylko edycje limitowane" */
+.filters-container input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #a100ff; /* Default color for dark mode */
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: 0.3s;
+}
+
+.filters-container input[type="checkbox"]:hover {
+    transform: scale(1.3);
+}
+
+/* Dark mode styles for checkbox */
+body.dark-mode .filters-container input[type="checkbox"] {
+    accent-color: #a100ff;
+}
+
+/* Light mode styles for checkbox */
+body.light-mode .filters-container input[type="checkbox"] {
+    accent-color: #80C0FF;
+}
+
 /* Kontener na albumy *
 
 /* Kontener albumów */
