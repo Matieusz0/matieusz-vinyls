@@ -11,7 +11,8 @@ $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $gatunek = isset($_GET['gatunek']) ? $_GET['gatunek'] : 'all';
 $cena = isset($_GET['cena']) ? (float)$_GET['cena'] : null;
-$sort = isset($_GET['sort']) ? $_GET['sort'] : 'cena_desc';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'created_desc';
+$limitowana = isset($_GET['limitowana']) && $_GET['limitowana'] === 'on';
 
 // Budowanie warunków WHERE
 $whereClauses = [];
@@ -24,16 +25,26 @@ if ($gatunek !== 'all') {
 if ($cena) {
     $whereClauses[] = "albumy.cena <= :cena";
 }
+if ($limitowana) {
+    $whereClauses[] = "albumy.edycja_limitowana_opis IS NOT NULL AND albumy.edycja_limitowana_opis != ''";
+}
+
 $whereSql = $whereClauses ? 'WHERE ' . implode(' AND ', $whereClauses) : '';
 
 // Obsługa sortowania
-$orderBy = 'albumy.cena DESC'; // Domyślne sortowanie
+$orderBy = 'albumy.created_at DESC'; // Domyślne sortowanie
 if ($sort === 'cena_asc') {
     $orderBy = 'albumy.cena ASC';
 } elseif ($sort === 'wykonawca_asc') {
     $orderBy = 'albumy.wykonawca ASC';
 } elseif ($sort === 'tytul_asc') {
     $orderBy = 'albumy.tytuł ASC';
+} elseif ($sort === 'created_asc') {
+    $orderBy = 'albumy.created_at ASC';
+} elseif ($sort === 'created_desc') {
+    $orderBy = 'albumy.created_at DESC';
+} elseif ($sort === 'cena_desc') {
+    $orderBy = 'albumy.cena DESC';
 }
 
 // Zapytanie SQL
@@ -59,7 +70,7 @@ $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $albums = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// 🔹 POBIERANIE GATUNKOW
+// 🔹 POBIERANIE GATUNKÓW
 $gatunkiStmt = $pdo->prepare("SELECT * FROM gatunki ORDER BY nazwa ASC");
 $gatunkiStmt->execute();
 $gatunki = $gatunkiStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -74,7 +85,7 @@ $recentAlbumStmt = $pdo->prepare("SELECT albumy.*, gatunki.nazwa AS gatunek
 $recentAlbumStmt->execute();
 $recentAlbum = $recentAlbumStmt->fetch(PDO::FETCH_ASSOC);
 
-// 🔹 OBLICZANIE LACZNEJ WARTOSCI WSZYSTKICH ALBUMOW
+// 🔹 OBLICZANIE ŁĄCZNEJ WARTOŚCI WSZYSTKICH ALBUMÓW
 $totalValueStmt = $pdo->prepare("SELECT SUM(cena) AS total_value FROM albumy");
 $totalValueStmt->execute();
 $totalValue = $totalValueStmt->fetch(PDO::FETCH_ASSOC)['total_value'];
@@ -96,7 +107,7 @@ while ($row = $genreValuesStmt->fetch(PDO::FETCH_ASSOC)) {
     $genreValues[$row['genre']] = $row['value'];
 }
 
-// 🔹 WARTOŚĆ KOLEKCJI WEDŁUG GATUNKÓW
+// 🔹 ILOŚĆ ALBUMÓW WEDŁUG GATUNKÓW
 $genreCountsStmt = $pdo->prepare("SELECT gatunki.nazwa AS genre, COUNT(albumy.id) AS count 
     FROM albumy 
     LEFT JOIN gatunki ON albumy.gatunek_id = gatunki.id 
@@ -188,11 +199,17 @@ $mostExpensiveAlbum = $mostExpensiveAlbumStmt->fetch(PDO::FETCH_ASSOC);
                 <input type="number" name="cena" id="cena-filter" placeholder="Maks. cena" value="<?= isset($_GET['cena']) ? htmlspecialchars($_GET['cena']) : '' ?>">
                 <label for="sort-filter">Sortuj według:</label>
                 <select name="sort" id="sort-filter">
+                    <option value="created_desc" <?= isset($_GET['sort']) && $_GET['sort'] === 'created_desc' ? 'selected' : '' ?>>Najnowszy w kolekcji</option>
+                    <option value="created_asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'created_asc' ? 'selected' : '' ?>>Najstarszy w kolekcji</option>
                     <option value="cena_desc" <?= isset($_GET['sort']) && $_GET['sort'] === 'cena_desc' ? 'selected' : '' ?>>Cena od najwyższej</option>
                     <option value="cena_asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'cena_asc' ? 'selected' : '' ?>>Cena od najniższej</option>
                     <option value="wykonawca_asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'wykonawca_asc' ? 'selected' : '' ?>>Alfabetycznie wykonawca</option>
                     <option value="tytul_asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'tytul_asc' ? 'selected' : '' ?>>Alfabetycznie tytuł</option>
                 </select>
+                <label for="limitowana-filter">
+                    <input type="checkbox" name="limitowana" id="limitowana-filter" <?= isset($_GET['limitowana']) && $_GET['limitowana'] === 'on' ? 'checked' : '' ?>>
+                    Tylko edycje limitowane
+                </label>
                 <button type="submit" class="search-btn">Szukaj</button>
                 <button type="button" id="reset-filters" class="reset-btn">Resetuj</button>
             </form>
@@ -219,11 +236,18 @@ $mostExpensiveAlbum = $mostExpensiveAlbumStmt->fetch(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </div>
             <div class="pagination">
-                <?php if ($page > 1): ?>
-                    <a href="?page=<?= $page - 1 ?>" class="pagination-btn">Wróć</a>
+                <?php
+                $queryParams = $_GET; // Get current query parameters
+                if ($page > 1):
+                    $queryParams['page'] = $page - 1;
+                ?>
+                    <a href="?<?= http_build_query($queryParams) ?>" class="pagination-btn">Wróć</a>
                 <?php endif; ?>
-                <?php if ($page * $limit < $totalAlbums): ?>
-                    <a href="?page=<?= $page + 1 ?>" class="pagination-btn">Dalej</a>
+                <?php
+                if ($page * $limit < $totalAlbums):
+                    $queryParams['page'] = $page + 1;
+                ?>
+                    <a href="?<?= http_build_query($queryParams) ?>" class="pagination-btn">Dalej</a>
                 <?php endif; ?>
             </div>
         </div>

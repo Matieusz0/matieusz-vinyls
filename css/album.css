@@ -38,6 +38,9 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-height: 100vh; /* Ensure the container fits within the viewport */
+    overflow: hidden; /* Hide overflow to prevent scrollbar */
+    padding: 10px;
 }
 
 /* Główna zawartość (okładka + informacje) */
@@ -48,6 +51,7 @@ h1 {
     width: 80%;
     max-width: 1200px;
     margin-top: 20px;
+    height: auto;
 }
 
 /* Okładka płyty */
@@ -80,13 +84,15 @@ h1 {
 /* Informacje o albumie */
 .album-details {
     background: rgba(20, 20, 20, 0.8);
-    padding: 20px;
+    padding: 15px; /* Reduce padding to save space */
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
-    width: 50%;
-    margin: 0 auto;
+    width: 90%; /* Adjust width for better responsiveness */
+    max-width: 600px; /* Limit maximum width */
+    margin: 10px auto; /* Reduce margin to save space */
     text-align: left;
     color: white;
+    font-size: 14px; /* Adjust font size for better fit */
 }
 
 .album-details img {
@@ -105,6 +111,8 @@ h1 {
 .label {
     font-weight: bold;
     color: #a100ff;
+    display: inline-block;
+    margin-bottom: 5px;
 }
 
 /* Neonowy efekt */
@@ -117,27 +125,15 @@ h1 {
 
 /* Lista piosenek */
 .album-details ul {
+    columns: 2; /* Split the list into two columns */
+    column-gap: 20px; /* Add spacing between columns */
+    padding: 0;
+    margin: 0;
     list-style-type: none;
 }
 
-/* Przycisk powrotu */
-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background: #a100ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #a100ff;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #7300b3;
-    box-shadow: 0 0 15px #a100ff;
+.album-details ul li {
+    margin-bottom: 5px; /* Reduce spacing between list items */
 }
 
 /* Light mode styles */
@@ -176,16 +172,6 @@ body.light-mode .album-details li {
 
 body.light-mode .album-details ul {
     list-style-type: none;
-}
-
-body.light-mode button {
-    background: #80C0FF;
-    box-shadow: 0 0 10px #80C0FF;
-}
-
-body.light-mode button:hover {
-    background: #4D94FF;
-    box-shadow: 0 0 15px #80C0FF;
 }
 
 body.light-mode .cover img {
@@ -233,16 +219,6 @@ body.dark-mode .album-details ul {
     list-style-type: none;
 }
 
-body.dark-mode button {
-    background: #a100ff;
-    box-shadow: 0 0 10px #a100ff;
-}
-
-body.dark-mode button:hover {
-    background: #7300b3;
-    box-shadow: 0 0 15px #a100ff;
-}
-
 body.dark-mode .cover img {
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Box shadow for album cover in dark mode */
 }
@@ -269,3 +245,337 @@ body.dark-mode::before {
 .spinning {
     animation: spin 5s linear infinite;
 }
+
+/* Stylizacja dla Edycji Limitowanej */
+.limited-edition-banner {
+    background: rgba(30, 30, 30, 0.9); /* Ciemne tło */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); /* Złoty neon */
+    text-align: center;
+    margin: 20px auto;
+    width: 60%;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Tytuł Edycji Limitowanej */
+.limited-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #FFD700; /* Złoty kolor */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 15px rgba(255, 215, 0, 0.7);
+    margin-bottom: 10px;
+}
+
+/* Opis Edycji Limitowanej */
+.limited-desc {
+    font-size: 18px;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* Animacja Fade In */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* LIGHT MODE Stylizacja */
+body.light-mode .limited-edition-banner {
+    background: rgba(240, 240, 240, 0.9); /* Jasne tło */
+    box-shadow: 0 0 12px rgba(128, 192, 255, 0.7); /* Niebieski neon */
+}
+
+body.light-mode .limited-title {
+    color: #4D94FF; /* Niebieski */
+    text-shadow: 0 0 10px rgba(128, 192, 255, 0.9);
+}
+
+body.light-mode .limited-desc {
+    color: black;
+    text-shadow: 0 0 5px rgba(128, 192, 255, 0.5);
+}
+
+/* DARK MODE Stylizacja */
+body.dark-mode .limited-edition-banner {
+    background: rgba(30, 30, 30, 0.9);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+body.dark-mode .limited-title {
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+body.dark-mode .limited-desc {
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* Modal styles */
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: rgba(20, 20, 20, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    width: 90%;
+    max-width: 1200px;
+    
+    height: auto; /* 🔥 Dynamiczna wysokość zamiast stałej */
+    max-height: 90vh; /* 🔥 Maksymalna wysokość */
+    
+    text-align: center;
+    color: white;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 🔥 Usunięcie scrolla na całym modal */
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Title */
+.modal-content h2 {
+    font-size: 24px;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    margin-bottom: 10px;
+}
+
+/* Songs container */
+.songs-columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    flex: 1;
+    padding: 10px;
+    overflow: hidden; /* ❌ Brak przewijania na kontenerze */
+}
+
+/* Song column */
+.songs-column {
+    background: rgba(30, 30, 30, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
+    text-align: center;
+    color: white;
+    flex: 1 1 250px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    
+    max-height: 80vh; /* 🔥 Ograniczenie wysokości */
+    overflow-y: auto; /* 🔥 Tylko kolumny przewijają się */
+}
+
+.songs-column h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #a100ff;
+    text-shadow: 0 0 10px #a100ff;
+    margin-bottom: 10px;
+}
+
+/* Song list */
+.songs-column ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* 🔥 Przewijanie tylko listy, jeśli potrzeba */
+}
+
+.songs-column ul li {
+    margin-bottom: 12px; /* Increased spacing between songs */
+    font-size: 16px; /* Slightly larger font for songs */
+    text-shadow: 0 0 5px #a100ff;
+    white-space: normal; /* Allow text wrapping */
+    overflow: visible; /* Ensure all text is fully visible */
+    padding: 0 10px; /* Add padding to the sides */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator line for dark mode */
+}
+
+body.light-mode .songs-column ul li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Subtle separator line for light mode */
+    margin-top: 1px;
+}
+
+body.light-mode .songs-column ul li:first-child {
+    border-bottom: none; /* Remove separator for the last song */
+}
+body.dark-mode .songs-column ul li:first-child {
+    border-bottom: none; /* Remove separator for the last song */
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .songs-column {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .songs-column {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #FFD700;
+}
+
+
+
+/* Light mode styles for modal */
+body.light-mode .modal-content {
+    background: rgba(240, 240, 240, 0.9);
+    box-shadow: 0 0 12px rgba(128, 192, 255, 0.7);
+    color: black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+body.light-mode .modal-content h2 {
+    color: #4D94FF;
+    text-shadow: 0 0 10px rgba(128, 192, 255, 0.9);
+}
+
+body.light-mode .modal-content ul li {
+    color: black;
+    text-shadow: 0 0 5px rgba(128, 192, 255, 0.5);
+}
+
+body.light-mode .songs-column {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 10px rgba(128, 192, 255, 0.7);
+    color: black;
+}
+
+body.light-mode .songs-column h3 {
+    color: #4D94FF;
+    text-shadow: 0 0 10px rgba(128, 192, 255, 0.9);
+}
+
+/* Dark mode styles for modal */
+body.dark-mode .modal-content {
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+body.dark-mode .modal-content h2 {
+    color: rgba(161, 0, 255, 0.8);
+    text-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
+}
+
+body.dark-mode .modal-content ul li {
+    color: white;
+    text-shadow: 0 0 5px rgba(161, 0, 255, 0.8);
+}
+
+body.dark-mode .songs-column {
+    background: rgba(30, 30, 30, 0.9);
+    box-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
+    color: white;
+}
+
+body.dark-mode .songs-column h3 {
+    color: rgba(161, 0, 255, 0.8);
+    text-shadow: 0 0 10px rgba(161, 0, 255, 0.8);
+}
+
+/* Back button styles */
+.back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: #a100ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #a100ff;
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* Light mode styles for back button */
+body.light-mode .back-button {
+    background: #80C0FF; /* Light blue background */
+    color: rgb(255, 255, 255); /* Black text */
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .back-button:hover {
+    background: #4D94FF; /* Darker blue on hover */
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+/* Songs button styles */
+.songs-button {
+    display: block;
+    margin: 15px auto; /* Center the button within the album-details div */
+    padding: 10px 20px;
+    background: #4CAF50; /* Green background for distinction */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #4CAF50;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.songs-button:hover {
+    background: #388E3C; /* Darker green on hover */
+    box-shadow: 0 0 15px #4CAF50;
+}
+
+
+
