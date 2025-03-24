@@ -7,7 +7,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     exit();
 }
 
-// 🔹 POBIERANIE GATUNKOW
+// 🔹 Pobieranie gatunków
 $gatunkiStmt = $pdo->prepare("SELECT * FROM gatunki ORDER BY nazwa ASC");
 $gatunkiStmt->execute();
 $gatunki = $gatunkiStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -23,8 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $piosenki = $_POST['piosenki'] ?? null;
     $cena = $_POST['cena'] ?? null;
     $spotify_link = $_POST['spotify_link'] ?? null;
-    
-    // 🔹 ZDJECIE
+    $edycja_limitowana_opis = $_POST['edycja_limitowana_opis'] ?? null;
+
+    // 🔹 Obsługa zdjęcia okładki
     $zdjecie = null;
     if (!empty($_FILES['zdjecie']['name'])) {
         $zdjecie_nazwa = time() . "_" . $_FILES['zdjecie']['name'];
@@ -33,10 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $zdjecie = $target_path;
     }
 
+    // 🔹 Obsługa nowego gatunku
     if (!empty($nowy_gatunek)) {
         try {
-            $nowy_gatunek = trim($nowy_gatunek);
-            $nowy_gatunek = ucfirst(strtolower($nowy_gatunek));
+            $nowy_gatunek = trim(ucfirst(strtolower($nowy_gatunek)));
     
             $stmt = $pdo->prepare("SELECT id FROM gatunki WHERE nazwa = :nowy_gatunek");
             $stmt->bindParam(':nowy_gatunek', $nowy_gatunek, PDO::PARAM_STR);
@@ -49,56 +50,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt = $pdo->prepare("INSERT INTO gatunki (nazwa) VALUES (:nowy_gatunek)");
                 $stmt->bindParam(':nowy_gatunek', $nowy_gatunek, PDO::PARAM_STR);
                 $stmt->execute();
-    
                 $gatunek_id = $pdo->lastInsertId();
-                error_log("Nowy gatunek dodany: $nowy_gatunek, ID: $gatunek_id");
-
-                if (empty($gatunek_id)) {
-                    die("BŁĄD: lastInsertId() zwrócił NULL! Nowy gatunek nie zapisany.");
-                }
             }
         } catch (PDOException $e) {
             die("Błąd dodawania gatunku: " . $e->getMessage());
         }
-    } else if ($gatunek_id === null) {
-        $gatunek_id = NULL;
     }
 
-    // 🔹 DODAWANIE ALBUMU
+    // 🔹 Dodawanie albumu do bazy
     $stmt = $pdo->prepare("INSERT INTO albumy 
-    (wykonawca, `tytuł`, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, spotify_link) 
+    (wykonawca, `tytuł`, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, spotify_link, edycja_limitowana_opis) 
     VALUES 
-    (:wykonawca, :tytul, :opis, :gatunek_id, :data_wydania, :ilosc_plyt, :piosenki, :cena, :zdjecie, :spotify_link)");
+    (:wykonawca, :tytul, :opis, :gatunek_id, :data_wydania, :ilosc_plyt, :piosenki, :cena, :zdjecie, :spotify_link, :edycja_limitowana_opis)");
 
-$stmt->bindParam(':wykonawca', $wykonawca, PDO::PARAM_STR);
-$stmt->bindParam(':tytul', $tytuł, PDO::PARAM_STR); // 🛠 Poprawiona nazwa parametru!
-$stmt->bindParam(':opis', $opis, PDO::PARAM_STR);
-$stmt->bindParam(':gatunek_id', $gatunek_id, PDO::PARAM_INT);
-$stmt->bindParam(':data_wydania', $data_wydania, PDO::PARAM_INT);
-$stmt->bindParam(':ilosc_plyt', $ilosc_plyt, PDO::PARAM_INT);
-$stmt->bindParam(':piosenki', $piosenki, PDO::PARAM_STR);
-$stmt->bindParam(':cena', $cena, PDO::PARAM_STR);
-$stmt->bindParam(':zdjecie', $zdjecie, PDO::PARAM_STR);
-$stmt->bindParam(':spotify_link', $spotify_link, PDO::PARAM_STR);
+    $stmt->bindParam(':wykonawca', $wykonawca, PDO::PARAM_STR);
+    $stmt->bindParam(':tytul', $tytuł, PDO::PARAM_STR);
+    $stmt->bindParam(':opis', $opis, PDO::PARAM_STR);
+    $stmt->bindParam(':gatunek_id', $gatunek_id, PDO::PARAM_INT);
+    $stmt->bindParam(':data_wydania', $data_wydania, PDO::PARAM_INT);
+    $stmt->bindParam(':ilosc_plyt', $ilosc_plyt, PDO::PARAM_INT);
+    $stmt->bindParam(':piosenki', $piosenki, PDO::PARAM_STR);
+    $stmt->bindParam(':cena', $cena, PDO::PARAM_STR);
+    $stmt->bindParam(':zdjecie', $zdjecie, PDO::PARAM_STR);
+    $stmt->bindParam(':spotify_link', $spotify_link, PDO::PARAM_STR);
+    $stmt->bindParam(':edycja_limitowana_opis', $edycja_limitowana_opis, PDO::PARAM_STR);
 
-// ✅ DEBUGUJ WARTOŚCI PRZED `execute()`
-error_log("🔍 Wartości przed execute: " . print_r([
-    'wykonawca' => $wykonawca,
-    'tytul' => $tytuł,
-    'opis' => $opis,
-    'gatunek_id' => $gatunek_id,
-    'data_wydania' => $data_wydania,
-    'ilosc_plyt' => $ilosc_plyt,
-    'piosenki' => $piosenki,
-    'cena' => $cena,
-    'zdjecie' => $zdjecie,
-    'spotify_link' => $spotify_link
-], true));
-
-$stmt->execute();
+    $stmt->execute();
     header("Location: index.php");
     exit();
 }
+
 ?>
 
 
@@ -159,6 +140,14 @@ $stmt->execute();
                 <button type="button" class="prev-btn">Powrót</button>
                 <button type="button" class="next-btn">Dalej</button>
             </div>
+                <div class="form-step">
+                <label for="edycja_limitowana_opis">Dlaczego Limited Edition?</label>
+                <textarea name="edycja_limitowana_opis" placeholder="Podaj powód, dlaczego to edycja limitowana"></textarea>
+
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
+
 
             <div class="form-step">
                 <label for="ilosc_plyt">Ilość płyt:</label>
