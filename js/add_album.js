@@ -59,6 +59,19 @@ document.addEventListener('DOMContentLoaded', function () {
             formSteps[currentStep].classList.add('active');
         });
     });
+
+    // 🔹 Navigate to the next step on "Enter" key press if input is not empty
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            const activeStep = formSteps[currentStep];
+            const activeInput = activeStep.querySelector('input, textarea, select');
+            const nextBtn = activeStep.querySelector('.next-btn');
+            if (activeInput && activeInput.value.trim() !== '' && nextBtn) {
+                event.preventDefault(); // Prevent form submission
+                nextBtn.click();
+            }
+        }
+    });
 });
 
 // Apply the saved theme on page load
