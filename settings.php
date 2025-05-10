@@ -1,10 +1,5 @@
 <?php
 require 'php/db.php';
-session_start();
-if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
-    header("Location: access_denied.php");
-    exit();
-}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -24,21 +19,74 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
 
     <div class="settings-container">
         <h2>Opcje ustawień</h2>
-        <div>
-            <label for="rngRed">Red</label>
-            <input type="range" id="rngRed" name="rngRed" min="0" max="255" step="1" value="161" />
-            <input type="number" id="txtRed" name="txtRed" value="161" />
-        </div>
-        <div>
-            <label for="rngGreen">Green</label>
-            <input type="range" id="rngGreen" name="rngGreen" min="0" max="255" step="1" value="0" />
-            <input type="number" id="txtGreen" name="txtGreen" value="0" />
-        </div>
-        <div>
-            <label for="rngBlue">Blue</label>
-            <input type="range" id="rngBlue" name="rngBlue" min="0" max="255" step="1" value="255" />
-            <input type="number" id="txtBlue" name="txtBlue" value="255" />
-        </div>
+            <h3>Darkmode / Lightmode strony</h3>
+        <label class="switch">
+        <input id="input" type="checkbox" checked="darkTheme" />
+        <div class="slider round">
+    <div class="sun-moon">
+      <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+
+      <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+    </div>
+    <div class="stars">
+      <svg id="star-1" class="star" viewBox="0 0 20 20">
+        <path
+          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+        ></path>
+      </svg>
+      <svg id="star-2" class="star" viewBox="0 0 20 20">
+        <path
+          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+        ></path>
+      </svg>
+      <svg id="star-3" class="star" viewBox="0 0 20 20">
+        <path
+          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+        ></path>
+      </svg>
+      <svg id="star-4" class="star" viewBox="0 0 20 20">
+        <path
+          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+        ></path>
+      </svg>
+    </div>
+  </div>
+</div>
+</label>
     </div>
 </body>
 </html>

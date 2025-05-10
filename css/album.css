@@ -60,9 +60,8 @@ h1 {
     width: 550px;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
     margin-right: 40px;
-    transition: opacity 1.0s ease;
+    transition: opacity 1.0s ease, box-shadow 0.3s ease;
 }
 
 .album-img-hover {
@@ -74,7 +73,7 @@ h1 {
     object-fit: cover;
     border-radius: 10px;
     opacity: 0;
-    transition: opacity 1.0s ease;
+    transition: opacity 1.0s ease, box-shadow 0.3s ease;
 }
 
 .cover:hover .album-img-hover {
@@ -83,17 +82,32 @@ h1 {
 
 .cover:hover .album-img {
     opacity: 0;
-    transition: opacity 1.0s ease;
+    box-shadow: none; /* Remove box shadow when hovering */
+    transition: opacity 1.0s ease, box-shadow 0.3s ease;
 }
 
 /* Informacje o albumie */
 .album-details {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 20, 0.8);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
     width: 50%;
+    margin: 0 auto;
     text-align: left;
+    color: white;
+}
+
+.album-details img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.spotify-player {
+    margin-top: 20px;
 }
 
 /* Stylizacja tekstu */
@@ -127,5 +141,121 @@ button {
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 0 0 10px #a100ff;
-    transition: 0.
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+/* Light mode styles */
+body.light-mode {
+    background-color: white;
+    color: black;
+    transition: 0.3s;
+}
+
+body.light-mode::before {
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+    opacity: 0.7;
+}
+
+body.light-mode h1 {
+    color: black;
+    text-shadow: 0 0 5px #80C0FF;
+}
+
+body.light-mode .album-details {
+    background: rgba(230, 230, 230, 0.8);
+    box-shadow: 0 0 10px rgba(128, 192, 255, 0.8);
+    color: black;
+    opacity: 0.9;
+}
+
+body.light-mode .label {
+    color: #80C0FF;
+}
+
+body.light-mode .album-details p,
+body.light-mode .album-details li {
+    color: black;
+    text-shadow: 0 0 5px #80C0FF;
+}
+
+body.light-mode .album-details ul {
+    list-style-type: none;
+}
+
+body.light-mode button {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode button:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+body.light-mode .cover img {
+    box-shadow: 0 0 15px rgba(128, 192, 255, 0.8); /* Box shadow for album cover in light mode */
+}
+
+body.light-mode .cover:hover .album-img-hover {
+    box-shadow: 0 0 15px rgba(128, 192, 255, 0.8); /* Box shadow for album cover on hover in light mode */
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: black;
+    color: white;
+    transition: 0.3s;
+}
+
+body.dark-mode::before {
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.3;
+}
+
+body.dark-mode h1 {
+    color: white;
+    text-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode .album-details {
+    background: rgba(20, 20, 20, 0.8);
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    color: white;
+}
+
+body.dark-mode .label {
+    color: #a100ff;
+}
+
+body.dark-mode .album-details p,
+body.dark-mode .album-details li {
+    color: white;
+    text-shadow: 0 0 5px #a100ff;
+}
+
+body.dark-mode .album-details ul {
+    list-style-type: none;
+}
+
+body.dark-mode button {
+    background: #a100ff;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+body.dark-mode button:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode .cover img {
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Box shadow for album cover in dark mode */
+}
+
+body.dark-mode .cover:hover .album-img-hover {
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8); /* Box shadow for album cover on hover in dark mode */
 }

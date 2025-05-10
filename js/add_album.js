@@ -51,3 +51,34 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const formSteps = document.querySelectorAll('.form-step');
+    const nextBtns = document.querySelectorAll('.next-btn');
+    const prevBtns = document.querySelectorAll('.prev-btn');
+    let currentStep = 0;
+
+    formSteps[currentStep].classList.add('active');
+
+    nextBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            formSteps[currentStep].classList.remove('active');
+            currentStep++;
+            formSteps[currentStep].classList.add('active');
+        });
+    });
+
+    prevBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            formSteps[currentStep].classList.remove('active');
+            currentStep--;
+            formSteps[currentStep].classList.add('active');
+        });
+    });
+});
+
+// Apply the saved theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.classList.add(savedTheme === 'dark' ? 'dark-mode' : 'light-mode');
+});

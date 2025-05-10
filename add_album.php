@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $ilosc_plyt = $_POST['ilosc_plyt'] ?? null;
     $piosenki = $_POST['piosenki'] ?? null;
     $cena = $_POST['cena'] ?? null;
+    $spotify_link = $_POST['spotify_link'] ?? null;
     
     // 🔹 ZDJECIE
     $zdjecie = null;
@@ -69,8 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // 🔹 DODAWANIE ALBUMU
-    $stmt = $pdo->prepare("INSERT INTO albumy (wykonawca, tytuł, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, zdjecie2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$wykonawca, $tytuł, $opis, $gatunek_id, $data_wydania, $ilosc_plyt, $piosenki, $cena, $zdjecie, $zdjecie2]);
+    $stmt = $pdo->prepare("INSERT INTO albumy (wykonawca, tytuł, opis, gatunek_id, data_wydania, ilosc_plyt, piosenki, cena, zdjecie, zdjecie2, spotify_link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$wykonawca, $tytuł, $opis, $gatunek_id, $data_wydania, $ilosc_plyt, $piosenki, $cena, $zdjecie, $zdjecie2, $spotify_link]);
 
     header("Location: index.php");
     exit();
@@ -94,59 +95,91 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="button" class="back-btn" onclick="window.location.href='index.php'">🔙 Powrót</button>
     </div>
     <div>
-        
         <form action="" method="POST" enctype="multipart/form-data">
-        <label for="wykonawca">Wykonawca:</label>
-        <input type="text" name="wykonawca">
+            <div class="form-step">
+                <label for="wykonawca">Wykonawca:</label>
+                <input type="text" name="wykonawca">
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        <label for="tytuł">Tytuł:</label>
-        <input type="text" name="tytuł" required>
+            <div class="form-step">
+                <label for="tytuł">Tytuł:</label>
+                <input type="text" name="tytuł" required>
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        <label for="opis">Opis:</label>
-        <textarea name="opis"></textarea>
+            <div class="form-step">
+                <label for="opis">Opis:</label>
+                <textarea name="opis"></textarea>
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        <label for="gatunek">Gatunek:</label>
-        
-        <select name="gatunek_id">
-        <option value="">Wybierz gatunek</option>
-        <?php foreach ($gatunki as $gatunek): ?>
-        <option value="<?= $gatunek['id'] ?>"><?= $gatunek['nazwa'] ?></option>
-        <?php endforeach; ?>
-        </select>
+            <div class="form-step">
+                <label for="gatunek">Gatunek:</label>
+                <select name="gatunek_id">
+                    <option value="">Wybierz gatunek</option>
+                    <?php foreach ($gatunki as $gatunek): ?>
+                    <option value="<?= $gatunek['id'] ?>"><?= $gatunek['nazwa'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <label for="nowy_gatunek">Jeśli gatunek nie istnieje, wpisz nowy:</label>
+                <input type="text" name="nowy_gatunek" id="nowy_gatunek" placeholder="Wpisz nowy gatunek">
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        
-        <label for="nowy_gatunek">Jeśli gatunek nie istnieje, wpisz nowy:</label>
-        <input type="text" name="nowy_gatunek" id="nowy_gatunek" placeholder="Wpisz nowy gatunek">
+            <div class="form-step">
+                <label for="data_wydania">Data wydania:</label>
+                <input type="number" name="data_wydania">
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
+            <div class="form-step">
+                <label for="ilosc_plyt">Ilość płyt:</label>
+                <input type="number" name="ilosc_plyt">
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        <label for="data_wydania">Data wydania:</label>
-        <input type="number" name="data_wydania">
+            <div class="form-step">
+                <label for="piosenki">Piosenki:</label>
+                <textarea name="piosenki"></textarea>
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        <label for="ilosc_plyt">Ilość płyt:</label>
-        <input type="number" name="ilosc_plyt">
+            <div class="form-step">
+                <label for="cena">Cena:</label>
+                <input type="number" step="0.01" name="cena">
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        <label for="piosenki">Piosenki:</label>
-        <textarea name="piosenki"></textarea>
+            <div class="form-step">
+                <label for="spotify_link">Spotify Link:</label>
+                <input type="text" name="spotify_link" placeholder="Wklej link do Spotify">
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="button" class="next-btn">Dalej</button>
+            </div>
 
-        <label for="cena">Cena:</label>
-        <input type="number" step="0.01" name="cena">
-
-        <label for="zdjecie">Wybierz zdjęcie:</label>
-        <div class="zdjecie-upload-container">
-            <input type="file" id="zdjecie" name="zdjecie" accept="image/*" onchange="previewZdjecie(event)">
-                <div id="zdjeciePreview" class="zdjecie-preview">
+            <div class="form-step">
+                <label for="zdjecie">Wybierz zdjęcie:</label>
+                <div class="zdjecie-upload-container">
+                    <input type="file" id="zdjecie" name="zdjecie" accept="image/*" onchange="previewZdjecie(event)">
+                    <div id="zdjeciePreview" class="zdjecie-preview"></div>
                 </div>
-        </div>
-
-        <label for="zdjecie2">Wybierz drugie zdjęcie:</label>
-        <div class="zdjecie-upload-container">
-            <input type="file" id="zdjecie2" name="zdjecie2" accept="image/*" onchange="previewZdjecie2(event)">
-                <div id="zdjeciePreview2" class="zdjecie-preview">
+                <label for="zdjecie2">Wybierz drugie zdjęcie:</label>
+                <div class="zdjecie-upload-container">
+                    <input type="file" id="zdjecie2" name="zdjecie2" accept="image/*" onchange="previewZdjecie2(event)">
+                    <div id="zdjeciePreview2" class="zdjecie-preview"></div>
                 </div>
-        </div>
-    
-        <button type="submit">Dodaj</button>
+                <button type="button" class="prev-btn">Powrót</button>
+                <button type="submit">Dodaj</button>
+            </div>
         </form>
-    <div>
+    </div>
 </body>
 </html>

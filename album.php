@@ -28,6 +28,7 @@ if (!$album) {
     <meta charset="UTF-8">
     <title><?= $album['wykonawca']?> - <?= $album['tytuł'] ?></title>
     <link rel="stylesheet" href="css/album.css">
+    <script src="js/album.js" defer></script>
 </head>
 <body>
 
@@ -77,6 +78,12 @@ if (!$album) {
 
                 <?php if (!empty($album['cena'])): ?>
                     <p><span class="label">Cena:</span> <?= number_format($album['cena'], 2) ?> PLN</p>
+                <?php endif; ?>
+
+                <?php if (!empty($album['spotify_link'])): ?>
+                    <div class="spotify-player">
+                        <iframe src="<?= $album['spotify_link'] ?>&theme=0" width="100%" height="158" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>

@@ -1,10 +1,11 @@
+/* Resetowanie stylów */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* 🔹 TŁO I CZCIONKI */
+/* Tło i czcionki */
 body {
     background-color: black;
     color: white;
@@ -13,7 +14,7 @@ body {
     text-align: center;
 }
 
-/* 🔹 TŁO Z GWIAZDKAMI */
+/* Tło z gwiazdkami */
 body::before {
     content: "";
     position: fixed;
@@ -26,14 +27,14 @@ body::before {
     z-index: -1;
 }
 
-/* 🔹 TYTUŁ */
+/* Tytuł */
 h1 {
     font-size: 24px;
     text-shadow: 0 0 15px #a100ff;
     margin-bottom: 20px;
 }
 
-/* 🔹 FORMULARZ */
+/* Formularz */
 form {
     background: rgba(20, 20, 20, 0.8);
     padding: 20px;
@@ -44,36 +45,36 @@ form {
     text-align: left;
 }
 
-/* 🔹 NAGŁOWEK FORMULARZA */
+/* Nagłówek formularza */
 label {
     display: block;
-    margin: 5px 0 3px; /* Mniejsze marginesy */
+    margin: 5px 0 3px;
     font-weight: bold;
     color: #ffffff;
     text-shadow: 0 0 15px #a100ff;
-    font-size: 16px; /* Zmniejszony font */
+    font-size: 16px;
 }
 
-/* 🔹 POLA FORMULARZA */
+/* Pola formularza */
 input[type="text"], input[type="number"], textarea, select {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px; /* Mniejsze marginesy */
+    margin-bottom: 10px;
     border-radius: 5px;
     border: 2px solid #a100ff;
     background: rgba(255, 255, 255, 0.1);
     color: white;
-    font-size: 14px; /* Zmniejszony font */
+    font-size: 14px;
     text-align: center;
 }
 
-/* 🔹 Zmiana kursora na tekstowy */
+/* Zmiana kursora na tekstowy */
 textarea {
     resize: vertical;
-    min-height: 80px; /* Zmniejszona wysokość */
+    min-height: 80px;
 }
 
-/* 🔹 PRZYCISKI */
+/* Przyciski */
 .przyciski {
     position: absolute;
     top: 20px;
@@ -83,7 +84,7 @@ textarea {
     gap: 10px;
 }
 
-/* 🔹 PRZYCISK POWROTU */
+/* Przycisk powrotu */
 .back-btn {
     padding: 10px 20px;
     background: #a100ff;
@@ -100,12 +101,12 @@ textarea {
     box-shadow: 0 0 15px #a100ff;
 }
 
-/* 🔹 PRZYCISK WYSYŁANIA FORMULARZA */
+/* Przycisk wysyłania formularza */
 form label, form input, form button {
     margin: 5px 0;
 }
 
-/* 🔹 PRZYCISK WYSYŁANIA FORMULARZA */
+/* Przycisk wysyłania formularza */
 select {
     background-color: rgba(20, 20, 20, 0.8);
     border: 2px solid #a100ff;
@@ -149,6 +150,7 @@ label[for="zdjecie"], label[for="zdjecie2"] {
     margin-bottom: 10px;
     width: 100%;
     text-align: center;
+    font-size: 16px;
 }
 
 label[for="zdjecie"]:hover, label[for="zdjecie2"]:hover {
@@ -156,7 +158,7 @@ label[for="zdjecie"]:hover, label[for="zdjecie2"]:hover {
     box-shadow: 0 0 15px #a100ff;
 }
 
-/* 🔹 zdjecie preview */
+/* Zdjęcie preview */
 label[for="zdjecie"] {
     width: 100%;
     text-align: center;
@@ -183,7 +185,7 @@ label[for="zdjecie"]:hover {
     justify-content: center;
     align-items: center;
     margin-bottom: 30px; 
-    width: 100%; /* Make the container full width */
+    width: 100%;
 }
 
 .zdjecie-preview {
@@ -207,6 +209,35 @@ label[for="zdjecie"]:hover {
 
 button[type="submit"] {
     padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #28a745;
+    transition: 0.3s;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background: #218838;
+    box-shadow: 0 0 15px #28a745;
+}
+
+/* Form steps */
+.form-step {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.form-step.active {
+    display: block;
+    opacity: 1;
+}
+
+.next-btn, .prev-btn, button[type="submit"] {
+    padding: 10px 20px;
     background: #a100ff;
     color: white;
     border: none;
@@ -214,11 +245,182 @@ button[type="submit"] {
     cursor: pointer;
     box-shadow: 0 0 10px #a100ff;
     transition: 0.3s;
-    width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+    width: auto;
+    display: inline-block;
+}
+
+.next-btn:hover, .prev-btn:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+button[type="submit"] {
+    background: #28a745;
+    box-shadow: 0 0 10px #28a745;
+    color: white;
 }
 
 button[type="submit"]:hover {
+    background: #218838;
+    box-shadow: 0 0 15px #28a745;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: black;
+    color: white;
+    transition: 0.3s;
+}
+
+body.dark-mode::before {
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+}
+
+body.dark-mode h1 {
+    color: white;
+    text-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode form {
+    background: rgba(20, 20, 20, 0.8);
+    box-shadow: 0 0 15px rgba(161, 0, 255, 0.8);
+    color: white;
+}
+
+body.dark-mode label {
+    color: white;
+    text-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode input[type="text"], 
+body.dark-mode input[type="number"], 
+body.dark-mode textarea, 
+body.dark-mode select {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid #a100ff;
+}
+
+body.dark-mode .back-btn {
+    background: #a100ff;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+body.dark-mode .back-btn:hover {
     background: #7300b3;
     box-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode label[for="zdjecie"], 
+body.dark-mode label[for="zdjecie2"] {
+    background: #a100ff;
+    box-shadow: 0 0 10px #a100ff;
+}
+
+body.dark-mode label[for="zdjecie"]:hover, 
+body.dark-mode label[for="zdjecie2"]:hover {
+    background: #7300b3;
+    box-shadow: 0 0 15px #a100ff;
+}
+
+body.dark-mode .zdjecie-preview {
+    border: 2px solid #a100ff;
+}
+
+body.dark-mode button[type="submit"] {
+    background: #28a745;
+    box-shadow: 0 0 10px #28a745;
+}
+
+body.dark-mode button[type="submit"]:hover {
+    background: #218838;
+    box-shadow: 0 0 15px #28a745;
+}
+
+/* Light mode styles */
+body.light-mode {
+    background-color: white;
+    color: black;
+    transition: 0.3s;
+}
+
+body.light-mode::before {
+    background: url('https://www.transparenttextures.com/patterns/cartographer.png');
+    opacity: 0.7;
+}
+
+body.light-mode h1 {
+    color: black;
+    text-shadow: 0 0 5px #80C0FF;
+}
+
+body.light-mode form {
+    background: rgba(230, 230, 230, 0.8);
+    box-shadow: 0 0 10px rgba(128, 192, 255, 0.8);
+    color: black;
+    opacity: 0.9;
+}
+
+body.light-mode label {
+    color: black;
+    text-shadow: 0 0 5px #80C0FF;
+}
+
+body.light-mode input[type="text"], 
+body.light-mode input[type="number"], 
+body.light-mode textarea, 
+body.light-mode select {
+    background: white;
+    color: black;
+    border: 2px solid #80C0FF;
+}
+
+body.light-mode .back-btn {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .back-btn:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+body.light-mode label[for="zdjecie"], 
+body.light-mode label[for="zdjecie2"] {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode label[for="zdjecie"]:hover, 
+body.light-mode label[for="zdjecie2"]:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
+}
+
+body.light-mode .zdjecie-preview {
+    border: 2px solid #80C0FF;
+}
+
+body.light-mode button[type="submit"] {
+    background: #28a745;
+    box-shadow: 0 0 10px #28a745;
+    color: white;
+}
+
+body.light-mode button[type="submit"]:hover {
+    background: #218838;
+    box-shadow: 0 0 15px #28a745;
+}
+
+body.light-mode .next-btn, body.light-mode .prev-btn {
+    background: #80C0FF;
+    box-shadow: 0 0 10px #80C0FF;
+}
+
+body.light-mode .next-btn:hover, body.light-mode .prev-btn:hover {
+    background: #4D94FF;
+    box-shadow: 0 0 15px #80C0FF;
 }
 
