@@ -14,22 +14,6 @@ function previewZdjecie(event) {
     }
 }
 
-// 🔹 PODGLĄD DRUGIEGO ZDJĘCIA PRZED WYSŁANIEM
-function previewZdjecie2(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function () {
-        const zdjeciePreview2 = document.getElementById('zdjeciePreview2');
-        zdjeciePreview2.style.display = 'flex';
-        zdjeciePreview2.innerHTML = `<img src="${reader.result}" alt="Preview">`;
-    }
-
-    if (file) {
-        reader.readAsDataURL(file);
-    }
-}
-
 // 🔹 WALIDACJA FORMULARZA
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');

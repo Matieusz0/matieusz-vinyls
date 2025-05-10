@@ -10,26 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedGatunek = gatunekFilter.value;
         const maxCena = parseFloat(cenaFilter.value) || Infinity;
         const searchQuery = searchInput.value.toLowerCase();
-        const sortOption = sortFilter.value;
 
-        let sortedAlbums = Array.from(albums);
-
-        switch (sortOption) {
-            case "cena_asc":
-                sortedAlbums.sort((a, b) => parseFloat(a.getAttribute("data-cena")) - parseFloat(b.getAttribute("data-cena")));
-                break;
-            case "cena_desc":
-                sortedAlbums.sort((a, b) => parseFloat(b.getAttribute("data-cena")) - parseFloat(a.getAttribute("data-cena")));
-                break;
-            case "wykonawca_asc":
-                sortedAlbums.sort((a, b) => a.querySelector(".album-text h3").textContent.localeCompare(b.querySelector(".album-text h3").textContent));
-                break;
-            case "tytul_asc":
-                sortedAlbums.sort((a, b) => a.querySelector(".album-text h2").textContent.localeCompare(b.querySelector(".album-text h2").textContent));
-                break;
-        }
-
-        sortedAlbums.forEach(album => {
+        albums.forEach(album => {
             const albumGatunek = album.getAttribute("data-gatunek");
             const albumCena = parseFloat(album.getAttribute("data-cena")) || 0;
             const albumWykonawca = album.querySelector(".album-text h3").textContent.toLowerCase();
@@ -44,15 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 album.classList.add("hidden");
             }
+        });
 
-            document.querySelector(".albums").appendChild(album);
+        // Pokaż tylko pierwsze 20 wyników
+        const visibleAlbums = Array.from(albums).filter(album => !album.classList.contains("hidden"));
+        visibleAlbums.forEach((album, index) => {
+            album.style.display = index < 20 ? "block" : "none";
         });
     }
-
-    gatunekFilter.addEventListener("change", filterAlbums);
-    cenaFilter.addEventListener("input", filterAlbums);
-    sortFilter.addEventListener("change", filterAlbums);
-    searchInput.addEventListener("input", filterAlbums);
 
     // 🔹 RESETOWANIE FILTRÓW
     resetFilters.addEventListener("click", function () {
@@ -108,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
             albums.forEach(album => {
                 album.removeEventListener('click', toggleAlbumSelection);
             });
-            deleteAlbums();
+            deleteAlbums(); // Trigger album deletion
         }
     });
 
@@ -121,7 +102,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function deleteAlbums() {
         const selectedAlbums = document.querySelectorAll('.album.selected');
         const albumIds = Array.from(selectedAlbums).map(album => album.getAttribute('data-id'));
-        albumsToDeleteInput.value = JSON.stringify(albumIds);
+
+        if (albumIds.length === 0) {
+            alert('Nie wybrano żadnych albumów do usunięcia.');
+            return;
+        }
+
+        console.log('Sending album IDs to delete:', albumIds); // Debugging log
 
         fetch('delete_albums.php', {
             method: 'POST',
@@ -132,14 +119,17 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Server response:', data); // Debugging log
             if (data.success) {
                 selectedAlbums.forEach(album => album.remove());
+                alert('Albumy zostały pomyślnie usunięte.');
             } else {
-                alert('Wystąpił błąd podczas usuwania albumów.');
+                alert(data.message || 'Wystąpił błąd podczas usuwania albumów.');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Error during fetch:', error); // Debugging log
+            alert('Wystąpił błąd podczas komunikacji z serwerem.');
         });
     }
 });
@@ -148,4 +138,19 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.body.classList.add(savedTheme === 'dark' ? 'dark-mode' : 'light-mode');
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const resetFilters = document.getElementById("reset-filters");
+
+    resetFilters.addEventListener("click", function () {
+        // Resetuj wartości filtrów
+        document.getElementById("gatunek-filter").value = "all";
+        document.getElementById("cena-filter").value = "";
+        document.getElementById("sort-filter").value = "cena_desc";
+        document.getElementById("search-input").value = "";
+
+        // Przekierowanie na stronę bez parametrów GET
+        window.location.href = window.location.pathname;
+    });
 });

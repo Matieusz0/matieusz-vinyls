@@ -12,10 +12,15 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
 $data = json_decode(file_get_contents('php://input'), true);
 $albumsToDelete = $data['albums_to_delete'] ?? [];
 
-if (!empty($albumsToDelete)) {
+if (!is_array($albumsToDelete) || empty($albumsToDelete)) {
+    echo json_encode(['success' => false, 'message' => 'Nie wybrano żadnych albumów do usunięcia.']);
+    exit();
+}
+
+try {
     // Fetch the image paths of the albums to delete
     $placeholders = implode(',', array_fill(0, count($albumsToDelete), '?'));
-    $stmt = $pdo->prepare("SELECT zdjecie, zdjecie2 FROM albumy WHERE id IN ($placeholders)");
+    $stmt = $pdo->prepare("SELECT zdjecie FROM albumy WHERE id IN ($placeholders)");
     $stmt->execute($albumsToDelete);
     $albums = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -25,17 +30,15 @@ if (!empty($albumsToDelete)) {
 
     // Delete the image files from the uploads folder
     foreach ($albums as $album) {
-        if (file_exists($album['zdjecie'])) {
+        if (!empty($album['zdjecie']) && file_exists($album['zdjecie'])) {
             unlink($album['zdjecie']);
-        }
-        if (file_exists($album['zdjecie2'])) {
-            unlink($album['zdjecie2']);
         }
     }
 
     echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'No albums selected']);
+} catch (Exception $e) {
+    error_log('Error during album deletion: ' . $e->getMessage()); // Debugging log
+    echo json_encode(['success' => false, 'message' => 'Wystąpił błąd podczas usuwania albumów.']);
 }
 exit();
 ?>
